@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: If you use this software, please cite it using these metadata.
+title: "inbovegtypering: Vegetatietypering Voor INBOVEG"
+authors:
+- given-names: Pieter
+  family-names: Verschelde
+  affiliation: Instituut voor Natuur- en Bosonderzoek (INBO)
+  orcid: 0000-0002-9199-421X
+keywords:
+- vegetation
+- classification
+contact:
+- given-names: Pieter
+  family-names: Verschelde
+  affiliation: Instituut voor Natuur- en Bosonderzoek (INBO)
+  orcid: 0000-0002-9199-421X
+doi: ~
+license: GPL-3.0
+repository-code: https://github.com/inbo/inbovegtypering/
+type: software
+abstract: "Functies om vegetatietoekenning mogelijk te maken op basis van een vegetatieopname."
+version: 0.0.2

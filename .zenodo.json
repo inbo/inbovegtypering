@@ -1,0 +1,37 @@
+{
+  "title": "inbovegtypering: Vegetatietypering Voor INBOVEG",
+  "version": "0.0.2",
+  "license": "GPL-3.0",
+  "upload_type": "software",
+  "description": "<p>Functies om vegetatietoekenning mogelijk te maken op basis van een vegetatieopname.<\/p>",
+  "keywords": [
+    "vegetation",
+    "classification"
+  ],
+  "access_right": "open",
+  "language": "eng",
+  "contributors": [
+    {
+      "name": "Verschelde, Pieter",
+      "affiliation": "Instituut voor Natuur- en Bosonderzoek (INBO)",
+      "orcid": "0000-0002-9199-421X",
+      "type": "contactperson"
+    },
+    {
+      "name": "Research Institute for Nature and Forest (INBO)",
+      "type": "rightsholder"
+    }
+  ],
+  "creators": [
+    {
+      "name": "Verschelde, Pieter",
+      "affiliation": "Instituut voor Natuur- en Bosonderzoek (INBO)",
+      "orcid": "0000-0002-9199-421X"
+    }
+  ],
+  "communities": [
+    {
+      "identifier": "inbo"
+    }
+  ]
+}

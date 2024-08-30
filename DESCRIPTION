@@ -1,0 +1,21 @@
+Package: inbovegtypering
+Title: Vegetatietypering Voor INBOVEG
+Version: 0.0.2
+Authors@R: c(
+    person("Pieter", "Verschelde", , "pieter.verschelde@inbo.be", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-9199-421X", affiliation = "Instituut voor Natuur- en Bosonderzoek (INBO)")),
+    person("Research Institute for Nature and Forest (INBO)", , , "info@inbo.be", role = c("cph", "fnd"))
+  )
+Description: Functies om vegetatietoekenning mogelijk te maken op basis
+    van een vegetatieopname.
+License: GPL-3
+URL: https://github.com/inbo/inbovegtypering
+BugReports: https://github.com/inbo/inbovegtypering/issues
+Imports:
+    glue
+Config/checklist/communities: inbo
+Config/checklist/keywords: vegetation; classification
+Encoding: UTF-8
+Language: en-GB
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
