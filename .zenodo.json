@@ -1,6 +1,6 @@
 {
   "title": "inbovegtypering: Vegetatietypering Voor INBOVEG",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "GPL-3.0",
   "upload_type": "software",
   "description": "<p>Functies om vegetatietoekenning mogelijk te maken op basis van een vegetatieopname.<\/p>",
