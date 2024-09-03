@@ -2,7 +2,13 @@ description: Configuration file for checklist::check_pkg()
 package: yes
 allowed:
   warnings: []
-  notes: []
+  notes:
+  - motivation: Initial commit
+    value: |-
+      checking CRAN incoming feasibility ... NOTE
+      Maintainer: 'Pieter Verschelde <pieter.verschelde@inbo.be>'
+
+      New submission
 required:
 - CITATION
 - DESCRIPTION
