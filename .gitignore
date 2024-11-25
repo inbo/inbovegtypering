@@ -21,6 +21,6 @@ libs
 output
 renv/library
 *.RDS
-inst/development/data_source/
-inst/development/data_interim/
-inst/development/extdata/
+development/data_source/
+development/data_interim/
+development/extdata/

@@ -15,4 +15,4 @@
 ^man-roxygen$
 ^organisation.yml$
 ^pkgdown$
-^\development\$
+^development\$
