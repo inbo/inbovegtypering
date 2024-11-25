@@ -9,8 +9,10 @@
 ^_pkgdown.yml$
 ^checklist.yml$
 ^codecov\.yml$
+^codemeta.json$
 ^data-raw$
 ^docs$
 ^man-roxygen$
 ^organisation.yml$
 ^pkgdown$
+^\development\$

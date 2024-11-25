@@ -20,3 +20,7 @@ docs
 libs
 output
 renv/library
+*.RDS
+inst/development/data_source/
+inst/development/data_interim/
+inst/development/extdata/

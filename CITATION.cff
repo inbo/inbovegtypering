@@ -19,4 +19,7 @@ license: GPL-3.0
 repository-code: https://github.com/inbo/inbovegtypering/
 type: software
 abstract: "Functies om vegetatietoekenning mogelijk te maken op basis van een vegetatieopname."
-version: 0.0.4
+identifiers:
+- type: url
+  value: https://inbo.github.io/inbovegtypering
+version: 0.1.1

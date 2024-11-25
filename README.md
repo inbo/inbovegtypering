@@ -41,31 +41,52 @@ remotes::install_github("inbo/inbovegtypering")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example which shows you how to classify a measurement
 
-``` r
-library(inbovegtypering)
-## basic example code
-```
+    library(tidyverse)
+    library(inbovegtypering)
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+    # preparation
+    #------------
 
-``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
-```
+    conn <- connect_db_inboveg()
+    conn2 <- connect_db_taxonomy()
+    synoptic_data <- load_synoptic_data()
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
+    # observation data
+    #-----------------
+    recordings <-
+      read_inboveg_recording(
+        con_inboveg = conn,
+        con_taxa = conn2,
+        survey = "MILKLIM_Heischraal2012",
+        code = "IV2012081611384756"
+      )
 
-You can also embed plots, for example:
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+    # classify
+    #----------
+
+    cls_llk <- classify_likelihood(record, synoptic_data, normalised = TRUE)
+    cls_wrd <- classify_weirdness(record, synoptic_data, normalised = TRUE)
+    cls_inc <- classify_incompleteness(record, synoptic_data, normalised = TRUE)
+    cls_med <- classify_euclideqn(record, synoptic_data, normalised = TRUE)
+    cls_cod <- classify_composite(record, synoptic_data, normalised = TRUE)
+
+    # summarize
+    #-----------
+
+    summary(cls_llk)
+    summary(cls_wrd)
+    summary(cls_inc)
+    summary(cls_med)
+    summary(cls_cod)
+
+    # visualize
+    #-----------
+
+    plot(cls_llk)
+    plot(cls_wrd)
+    plot(cls_inc)
+    plot(cls_med)
+    plot(cls_cod)
