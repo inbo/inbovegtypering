@@ -43,7 +43,9 @@ gbifkeys <- rgbif::name_backbone_checklist(example_recordings$ScientificName)
 
 example_recordings <- example_recordings |>
   bind_cols(gbifkeys |> select(usageKey, acceptedUsageKey,
-                               rank, speciesKey, genusKey))
+                               rank, speciesKey, genusKey,
+                               familyKey, orderKey, classKey,
+                               phylumKey, kingdomKey))
 
 
 saveRDS(example_recordings,
@@ -102,4 +104,8 @@ example_synoptics <- synoptic_table |>
 saveRDS(example_synoptics,
         file.path("development", "data", "example_synoptics.rda"))
 
-
+write_official <- FALSE
+if (write_official) {
+  usethis::use_data(example_recordings, overwrite = TRUE, internal = FALSE)
+  usethis::use_data(example_synoptics, overwrite = TRUE, internal = FALSE)
+}

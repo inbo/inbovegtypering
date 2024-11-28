@@ -30,7 +30,6 @@ no_match <- which(!gbif_matches_backbone$matchType %in% c("EXACT","FUZZY") |
 
 gbif_matched <- gbif_matches_backbone |> slice(-no_match)
 
-
 ### after manual curation
 
 gbif_no_matches <- gbif_matches_backbone |> slice(no_match)
@@ -64,7 +63,8 @@ soortenlijst_volledig <- gbif_matched |>
   bind_rows(gbif_problems) |>
   select(speciesNumber = "soortnummer", "scientificName",
          "usageKey", "acceptedUsageKey",
-         "synonym", "rank", "genusKey", "speciesKey")
+         "synonym", "rank", "speciesKey", "genusKey", "familyKey",
+         "orderKey", "classKey", "phylumKey", "kingdomKey")
 
 write_excel_csv2(
   soortenlijst_volledig,
@@ -72,6 +72,7 @@ write_excel_csv2(
                    "zzz_local_data",
                    "interim",
                    "synoptic_species.csv"))
+species_list <- soortenlijst_volledig
 
 
 ###########################################################
@@ -116,9 +117,12 @@ write_excel_csv2(
 save(species_list, synoptic_table, synoptic_names,
      file =  file.path("development", "R", "sysdata.rda"))
 
-#officieel om de data correct weg te schrijven zodat het pakket eraan kan:
-#usethis::use_data(species_list,
-#                  synoptic_table,
-#                  synoptic_names,
-#                  internal = TRUE,
-#                  overwrite = TRUE)
+write_official <- FALSE
+if (write_official) {
+  usethis::use_data(species_list,
+                    synoptic_table,
+                    synoptic_names,
+                    internal = TRUE,
+                    overwrite = TRUE)
+}
+

@@ -24,6 +24,8 @@ Read a recording from Cydonia, specifying the survey and RecordingGivid
 \examples{
 \dontrun{
 library(inbovegtypering)
+con_inboveg <- connect_db_inboveg()
+con_taxa <- connect_db_taxonomy()
 record <-
   read_inboveg_recording(con_inboveg, con_taxa,
     survey = "MILKLIM_Heischraal2012",
