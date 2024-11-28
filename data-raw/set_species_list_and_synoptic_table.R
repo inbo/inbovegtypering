@@ -8,11 +8,13 @@ library(tidyverse)
 
 soortnamen_orig <-
   read_csv2(file.path("development",
-                      "data_source",
+                      "zzz_local_data",
+                      "orig",
                       "_originele_soortnamen_2005.csv"))
 soortinterpretatie <-
   read_csv2(file.path("development",
-                      "data_source",
+                      "zzz_local_data",
+                      "working",
                       "soortinterpretatie.csv"))
 
 soortnamen <- soortnamen_orig |>
@@ -67,14 +69,19 @@ soortenlijst_volledig <- gbif_matched |>
 write_excel_csv2(
   soortenlijst_volledig,
   file = file.path("development",
-                   "extdata",
+                   "zzz_local_data",
+                   "interim",
                    "synoptic_species.csv"))
+
+
+###########################################################
 
 ### SYNOPTIC table
 
-synoptic_table_orig <-
+synoptic_table <-
   read_csv2(file.path("development",
-                      "data_source",
+                      "zzz_local_data",
+                      "orig",
                       "_originele_synoptische_gegevens_2005.csv")) |>
   select(syntaxonCode = "syntaxoncode",
          speciesNumber = "soortnummer",
@@ -82,10 +89,36 @@ synoptic_table_orig <-
          mean_if_present = "gem_als_aanwezig")
 
 write_excel_csv2(
-  synoptic_table_orig,
+  synoptic_table,
   file = file.path("development",
-                   "extdata",
-                   "synoptic_table.csv")
-)
+                   "zzz_local_data",
+                   "interim",
+                   "synoptic_table.csv"))
 
+### Synoptic names
 
+synoptic_names <-
+  read_csv2(file.path("development",
+                      "zzz_local_data",
+                      "orig",
+                      "_originele_synoptische_namen_2005.csv")) |>
+  select(syntaxonCode = "syntaxoncode",
+         scientificSyntaxon = "wet_syntaxonnaam",
+         dutchSyntaxon = "nl_syntaxonnaam")
+
+write_excel_csv2(
+  synoptic_names,
+  file = file.path("development",
+                   "zzz_local_data",
+                   "interim",
+                   "synoptic_names.csv"))
+
+save(species_list, synoptic_table, synoptic_names,
+     file =  file.path("development", "R", "sysdata.rda"))
+
+#officieel om de data correct weg te schrijven zodat het pakket eraan kan:
+#usethis::use_data(species_list,
+#                  synoptic_table,
+#                  synoptic_names,
+#                  internal = TRUE,
+#                  overwrite = TRUE)
