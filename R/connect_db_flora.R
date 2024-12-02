@@ -1,12 +1,12 @@
-#' Connect to INBO taxonomy database
+#' Connect to INBO flora database
 #'
 #' @description
-#' Creates a database connection to the INBO taxonomy database.
+#' Creates a database connection to the INBO flora database.
 #' This function is a wrapper around \code{connect_inbo_dbase()}
 #' specifically for connecting to the taxonomy database.
 #'
 #' @param db Character string specifying the database name.
-#' Defaults to "D0155_00_Taxa".
+#' Defaults to "D0012_00_Flora".
 #' @param test flag whether the test modus is used
 #'
 #' @return A database connection object
@@ -27,7 +27,7 @@
 #' @return connection object
 #' @export
 #' @importFrom inbodb connect_inbo_dbase
-connect_db_taxonomy <- function(db = "D0155_00_Taxa", test = FALSE) {
+connect_db_flora <- function(db = "D0012_00_Flora", test = FALSE) {
   if (!test) {
     tryCatch(
       {
@@ -35,9 +35,18 @@ connect_db_taxonomy <- function(db = "D0155_00_Taxa", test = FALSE) {
         return(con)
       },
       error = function(e) {
-        message("Could not connect to taxa database")
+        message("Could not connect to taxa database,
+                using test database instead")
       }
     )
   }
+  test_db_path <- system.file("testdata", "test_taxa.sqlite",
+    package = "inbovegtypering"
+  )
+  if (!file.exists(test_db_path)) {
+    # Create test database if it doesn't exist
+    create_test_inboveg_database()
+  }
+  con <- DBI::dbConnect(RSQLite::SQLite(), test_db_path)
   con
 }

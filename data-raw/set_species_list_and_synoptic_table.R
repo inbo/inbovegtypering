@@ -61,7 +61,8 @@ soortenlijst_volledig <- gbif_matched |>
               filter(!(matchType == "HIGHERRANK" |
                        matchType %in% c("KINGDOM", "PHYLUM")))) |>
   bind_rows(gbif_problems) |>
-  select(speciesNumber = "soortnummer", "scientificName",
+  select(speciesNumber = "soortnummer",
+         speciesName = "soortnaam", "scientificName",
          "usageKey", "acceptedUsageKey",
          "synonym", "rank", "speciesKey", "genusKey", "familyKey",
          "orderKey", "classKey", "phylumKey", "kingdomKey")

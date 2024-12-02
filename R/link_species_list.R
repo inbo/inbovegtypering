@@ -1,3 +1,22 @@
+
+#' Link species with internal species list
+#'
+#' @param species_names character vector of species names to be found
+#'
+#' @return data.frame containing species infomatino
+#' @export
+#'
+link_species_list <- function(species_names){
+  species_list <- utils::getFromNamespace("species_list", "inbovegtypering")
+  rv <- data.frame(speciesName = species_names) |>
+    left_join(species_list, by = "speciesName")
+  rv
+}
+
+
+
+
+
 #' Link recording to species list
 #'
 #' @description

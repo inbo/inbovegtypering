@@ -41,7 +41,7 @@
 #' link_futon_db(con, species_names = species_names)
 #' }
 #'
-link_futon_db <- function(con, species_names) {
+link_taxa_db <- function(con, species_names) {
   species_patterns <- paste(
     paste0(
       "TaxonNameExact LIKE '",
@@ -66,28 +66,31 @@ link_futon_db <- function(con, species_names) {
                                nchar(.data$TaxonNameExact))) |>
     filter(.data$name_match %in% species_names)
 
-  result <- data.frame(name = species_names) |>
+  species_data <- data.frame(name = species_names) |>
     left_join(taxons, join_by(name == name_match)
     )
 
-  result <- result |>
+  result <- species_data |>
     select("name",
            usageKey = "gbif_usageKey") |>
     distinct()
 
   usage_keys <- na.omit(unique(result$usageKey))
+  if(!length(usage_keys)) {
+    stop("No non-NA usageKeys found")
+  }
   tree <- sapply(usage_keys, function(x) rgbif::name_usage(x)$data) |>
     bind_rows() |>
     select(usageKey = "nubKey",
            acceptedUsageKey = any_of("acceptedKey"),
            "scientificName",
-           "speciesKey", "genusKey", "familyKey",
-           "orderKey", "classKey", "phylumKey", "kingdomKey") |>
+            "speciesKey", "genusKey", "familyKey",
+            "orderKey", "classKey", "phylumKey", "kingdomKey") |>
     mutate(acceptedUsageKey = if("acceptedKey" %in% names(.data)) {
       tree$acceptedKey
     } else {
-      NA_integer_
-    })
+        NA_integer_
+      })
 
   rv <- result |>
     left_join(tree, join_by(usageKey == usageKey))

@@ -4,20 +4,23 @@ library(inbovegtypering)
 # preparation
 #------------
 
-conn <- connect_db_inboveg()
-conn2 <- connect_db_taxonomy()
-synoptic_data <- load_synoptic_data(source = "test")
+con_veg <- connect_db_inboveg()
+conn_taxa <- connect_db_taxonomy()
+conn_flora <- connect_db_flora()
+synoptic_data <- load_synoptic_data()
 
 # observation data
 #-----------------
 recordings <-
   read_inboveg_recording(
-    con_inboveg = conn,
+    con_inboveg = con_veg,
     con_taxa = conn2,
     survey = "MILKLIM_Heischraal2012",
     code = "IV2012081611384756"
   )
 
+#Make observation compatible with synoptic table
+#--------------------------------------------------
 
 # classify
 #----------
