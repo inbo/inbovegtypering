@@ -30,7 +30,7 @@
 #' record1_plot + record2_plot
 #' }
 #'
-plot_classification_rose <-
+plot_classification_rose <- #nog iets toevoegen om volledig proportioneel te tonen zodat 0.75 en 0.67 weinig schelen
   function(data,
            indextype,
            types = 12,
@@ -44,7 +44,7 @@ plot_classification_rose <-
   index_properties <- list(
     likelihood = list(
       column = "likelihood",
-      inverse = TRUE,
+      inverse = FALSE,
       title = "Likelihood Index"
     )
     # Add other index types as needed
@@ -58,21 +58,21 @@ plot_classification_rose <-
       slice_head(n = types)
   } else if (is.character(types)) {
     plot_data <- data |>
-      filter(.data$syntaxoncode %in% types)
+      filter(.data$syntaxonCode %in% types)
 
     # Different ordering based on 'order' parameter
     plot_data <- switch(order,
       "likelihood" = plot_data |>
         arrange(.data[[props$column]]),
-      "alphabetical" = plot_data |> arrange(.data$syntaxoncode),
+      "alphabetical" = plot_data |> arrange(.data$syntaxonCode),
       "given" = plot_data |>
-        mutate(order = match(.data$syntaxoncode, types)) |>
+        mutate(order = match(.data$syntaxonCode, types)) |>
         arrange(order) |>
         select(-order)
     )
 
     if (nrow(plot_data) != length(types)) {
-      missing_types <- setdiff(types, plot_data$syntaxoncode)
+      missing_types <- setdiff(types, plot_data$syntaxonCode)
       warning(sprintf(
         "Some requested types not found in data: %s",
         paste(missing_types, collapse = ", ")
@@ -183,14 +183,14 @@ plot_classification_rose <-
       aes(
         x = (.data$length + .data$label_dist) * cos(.data$angle),
         y = (.data$length + .data$label_dist) * sin(.data$angle),
-        label = .data$syntaxoncode,
+        label = .data$syntaxonCode,
         hjust = .data$label_hjust,
         vjust = .data$label_vjust)) +
     # Add title and axis limits
     ggtitle(props$title) +
     coord_fixed(
       ratio = 1,
-      xlim = c((max_length + plot_margin), max_length + plot_margin),
+      xlim = c(-(max_length + plot_margin), max_length + plot_margin),
       ylim = c(-(max_length + plot_margin), max_length + plot_margin)) +
     theme_void() +
     theme(plot.title = element_text(hjust = 0.5))

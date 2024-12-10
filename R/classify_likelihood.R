@@ -64,32 +64,35 @@
 #' classify_likelihood(data, synoptics)
 #' }
 #' @export
-classify_likelihood <- function(data, synoptics) {
+classify_likelihood <- function(data, synoptics = "default") {
+  synoptic_table <- assert_correct_synoptics(synoptics)
+
   # only works for one record a time
-  combined <- synoptics |>
+  combined <- synoptic_table |>
     left_join(
       data |>
+        unnest(cols = species_number) |> #species_number is a list col (several synoptic matches possible)
         select(
           "RecordingGivid", "LayerCode",
           "CoverageCode", "PctValue",
-          "gbif_usageKey"
+          "species_number"
         ) |>
         filter(.data$LayerCode == "K") |>
         mutate(fraction = .data$PctValue / 100),
-      by = join_by(.data$usageKey == .data$gbif_usageKey)
+      by = join_by(x$speciesNumber == y$species_number)
     ) |>
     mutate(
       presence = !is.na(.data$fraction) & .data$fraction > 0,
       log_component = case_when(
-        presence ~ -2 * log(pmax(.data$frequentie, 0.0001)),
-        !presence ~ -2 * log(pmax(1 - .data$frequentie, 0.0001))
+        presence ~ -2 * log(pmax(.data$fraction, 0.0001)),
+        !presence ~ -2 * log(pmax(1 - .data$fraction, 0.0001))
       )
     )
 
   rv <- combined |>
-    group_by(.data$syntaxoncode) |>
-    summarise(likelihood = sum(.data$log_component)) |>
-    arrange(.data$likelihood)
+    group_by(.data$syntaxonCode) |>
+    summarise(likelihood = sum(.data$log_component, na.rm = TRUE)) |>
+    arrange(desc(.data$likelihood))
   attr(rv, "indextype") <- "likelihood"
   class(rv) <- c("inbovegclassification", class(rv))
   rv

@@ -4,7 +4,7 @@
 \alias{classify_likelihood}
 \title{Calculate Likelihood Index for Vegetation Classification}
 \usage{
-classify_likelihood(data, synoptics)
+classify_likelihood(data, synoptics = "default")
 }
 \arguments{
 \item{data}{A dataframe containing the plot data with columns:

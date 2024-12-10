@@ -115,9 +115,11 @@ write_excel_csv2(
                    "interim",
                    "synoptic_names.csv"))
 
-save(species_list, synoptic_table, synoptic_names,
+#write to development
+save(list = c("species_list", "synoptic_table", "synoptic_names"),
      file =  file.path("development", "R", "sysdata.rda"))
 
+#write to R/sysdata.rda
 write_official <- FALSE
 if (write_official) {
   usethis::use_data(species_list,
@@ -127,3 +129,4 @@ if (write_official) {
                     overwrite = TRUE)
 }
 
+#load("R/sysdata.rda") #nolint

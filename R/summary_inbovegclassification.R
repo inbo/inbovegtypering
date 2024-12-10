@@ -28,13 +28,13 @@ summary.inbovegclassification <-
       slice_head(n = n_types)
   } else {
     results <- object |>
-      filter(.data$syntaxoncode %in% types)
+      filter(.data$syntaxonCode %in% types)
 
     results <- switch(order,
       "likelihood" = results |> arrange(.data[[indextype]]),
-      "alphabetical" = results |> arrange(.data$syntaxoncode),
+      "alphabetical" = results |> arrange(.data$syntaxonCode),
       "given" = results |>
-        mutate(order = match(.data$syntaxoncode, types)) |>
+        mutate(order = match(.data$syntaxonCode, types)) |>
         arrange(order) |>
         select(-order)
     )
@@ -44,7 +44,7 @@ summary.inbovegclassification <-
   stats <- list(
     indextype = indextype,
     n_total_types = nrow(object),
-    best_match = results$syntaxoncode[1],
+    best_match = results$syntaxonCode[1],
     best_value = results[[indextype]][1],
     selected_types = results,
     value_range = range(object[[indextype]]),

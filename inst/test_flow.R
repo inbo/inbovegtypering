@@ -7,14 +7,13 @@ library(inbovegtypering)
 con_veg <- connect_db_inboveg()
 conn_taxa <- connect_db_taxonomy()
 conn_flora <- connect_db_flora()
-synoptic_data <- load_synoptic_data()
 
 # observation data
 #-----------------
-recordings <-
+single_record <-
   read_inboveg_recording(
     con_inboveg = con_veg,
-    con_taxa = conn2,
+    con_taxa = conn_taxa,
     survey = "MILKLIM_Heischraal2012",
     code = "IV2012081611384756"
   )
@@ -25,11 +24,12 @@ recordings <-
 # classify
 #----------
 
-cls_llk <- classify_likelihood(record, synoptic_data, normalised = TRUE)
-cls_wrd <- classify_weirdness(record, synoptic_data, normalised = TRUE)
-cls_inc <- classify_incompleteness(record, synoptic_data, normalised = TRUE)
-cls_med <- classify_euclideqn(record, synoptic_data, normalised = TRUE)
-cls_cod <- classify_composite(record, synoptic_data, normalised = TRUE)
+cls_llk <- classify_likelihood(single_record, normalised = TRUE)
+
+cls_wrd <- classify_weirdness(single_record, synoptic_data, normalised = TRUE)
+cls_inc <- classify_incompleteness(single_record, synoptic_data, normalised = TRUE)
+cls_med <- classify_euclideqn(single_record, synoptic_data, normalised = TRUE)
+cls_cod <- classify_composite(single_record, synoptic_data, normalised = TRUE)
 
 # visualize
 #-----------

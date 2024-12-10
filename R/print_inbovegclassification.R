@@ -26,19 +26,19 @@ print.inbovegclassification <-
       slice_head(n = n_types)
   } else {
     results <- x |>
-      filter(.data$syntaxoncode %in% types)
+      filter(.data$syntaxonCode %in% types)
 
     results <- switch(order,
       "likelihood" = results |> arrange(.data[[indextype]]),
-      "alphabetical" = results |> arrange(.data$syntaxoncode),
+      "alphabetical" = results |> arrange(.data$syntaxonCode),
       "given" = results |>
-        mutate(order = match(.data$syntaxoncode, types)) |>
+        mutate(order = match(.data$syntaxonCode, types)) |>
         arrange(order) |>
         select(-order)
     )
 
     if (nrow(results) != length(types)) {
-      missing_types <- setdiff(types, results$syntaxoncode)
+      missing_types <- setdiff(types, results$syntaxonCode)
       warning(sprintf(
         "Some requested types not found in data: %s",
         paste(missing_types, collapse = ", ")
