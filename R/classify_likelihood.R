@@ -68,28 +68,30 @@
 #'
 #' classify_likelihood(data, synoptics = "default")
 #'
-#'\dontrun{
+#' \dontrun{
 #' con_taxa <- connect_db_taxonomy()
 #' test_record <- example_recordings |>
 #'   select(1:12) |>
 #'   link_taxon_info(con_taxa = con_taxa)
 #'
 #' classification <- classify_likelihood(test_record, synoptics = "default")
-#'}
+#' }
 #' @export
 classify_likelihood <- function(data,
                                 synoptics = "default",
                                 normalised = TRUE) {
-  synoptic_table <- assert_correct_synoptics(synoptics)
-  if (synoptics == "default") {
+  if (inherits(synoptics, "data.frame")) {
+    synoptic_table <- synoptics
+  } else if (synoptics == "default") {
     synoptic_table <-
       utils::getFromNamespace("synoptic_table", "inbovegtypering")
   }
+  synoptic_table <- assert_correct_synoptics(synoptics)
 
   combined <- synoptic_table |>
     left_join(
       data |>
-        unnest(cols = species_number) |> #species_number is a list col (several synoptic matches possible)
+        unnest(cols = species_number) |> # species_number is a list col (several synoptic matches possible)
         select(
           "RecordingGivid", "LayerCode",
           "CoverageCode", "PctValue",
@@ -109,6 +111,7 @@ classify_likelihood <- function(data,
 
   # Calculate likelihood for each record_id and syntaxon combination
   rv <- combined |>
+    filter(!is.na(RecordingGivid)) |>
     group_by(across(all_of(c("RecordingGivid", "syntaxonCode")))) |>
     summarise(
       likelihood = sum(.data$log_component, na.rm = TRUE),
@@ -122,6 +125,7 @@ classify_likelihood <- function(data,
     group_split() |>
     map(function(x) {
       attr(x, "indextype") <- "likelihood"
+      attr(x, "RecordingGivid") <- x$RecordingGivid[[1]]
       class(x) <- c("inbovegclassification", class(x))
       x
     })

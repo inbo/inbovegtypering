@@ -4,7 +4,7 @@
 \alias{load_synoptic_data}
 \title{Load synoptic data}
 \usage{
-load_synoptic_data(source = "test")
+load_synoptic_data(source = "manual", path = NULL)
 }
 \arguments{
 \item{source}{location where to find the data}

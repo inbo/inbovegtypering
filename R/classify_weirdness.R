@@ -13,11 +13,11 @@ classify_weirdness <- function(data, synoptics) {
         select(
           "RecordingGivid", "LayerCode",
           "CoverageCode", "PctValue",
-          "gbif_usageKey"
+          "usageKey"
         ) |>
         filter(.data$LayerCode == "K") |>
         mutate(fraction = .data$PctValue / 100),
-      by = join_by(.data$usageKey == .data$gbif_usageKey)
+      by = join_by(.data$gbif_usageKey == .data$usageKey)
     ) |>
     mutate(
       presence = !is.na(.data$fraction) & .data$fraction > 0,

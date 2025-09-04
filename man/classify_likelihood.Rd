@@ -49,6 +49,36 @@ The function:
 \item Sums likelihood values by syntaxon
 }
 }
+\examples{
+# Example data structure
+data <- data.frame(
+  RecordingGivid = 1,
+  LayerCode = "K",
+  CoverageCode = "PCT",
+  PctValue = 50,
+  species_number = 123
+)
+
+synoptics <- data.frame(
+  syntaxonCode = "A1",
+  speciesNumber = 123,
+  frequency = 0.8,
+  mean_if_present = 2.4
+)
+
+classify_likelihood(data, synoptics)
+
+classify_likelihood(data, synoptics = "default")
+
+\dontrun{
+con_taxa <- connect_db_taxonomy()
+test_record <- example_recordings |>
+  select(1:12) |>
+  link_taxon_info(con_taxa = con_taxa)
+
+classification <- classify_likelihood(test_record, synoptics = "default")
+}
+}
 \references{
 van Tongeren, O., Gremmen, N., & Hennekens, S. (2008). Assignment of relevés
 to pre-defined classes by supervised clustering of plant communities

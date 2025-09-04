@@ -51,7 +51,16 @@ This is a basic example which shows you how to classify a measurement
 
     conn <- connect_db_inboveg()
     conn2 <- connect_db_taxonomy()
-    synoptic_data <- load_synoptic_data()
+    
+    #eens de data afgeklopt is zal dit zo kunnen
+    #maar in testfase doen we het manueel
+    #synoptic_data <- load_synoptic_data()
+    
+    #zolang de dataset niet afgeklopt is,
+    # halen we die manueel op via een externe file,
+    #die je zelf voorziet of gekregen hebt
+    synoptic_table <- 
+      load_synoptic_data(source = "manual", path = "synoptic_tabel.csv")
 
     # observation data
     #-----------------
@@ -66,17 +75,22 @@ This is a basic example which shows you how to classify a measurement
 
     # classify
     #----------
-
-    cls_llk <- classify_likelihood(record, synoptic_data, normalised = TRUE)
-    cls_wrd <- classify_weirdness(record, synoptic_data, normalised = TRUE)
+    record <- recordings |> filter(RecordingGivid == "IV2012081611384756")
+    
+    cls_llk <- classify_likelihood(record, synoptic_table, normalised = TRUE)
+    cls_wrd <- classify_weirdness(record, synoptic_data)
     cls_inc <- classify_incompleteness(record, synoptic_data, normalised = TRUE)
     cls_med <- classify_euclideqn(record, synoptic_data, normalised = TRUE)
     cls_cod <- classify_composite(record, synoptic_data, normalised = TRUE)
 
+    # print
+    #---------
+    cls_llk
+    
     # summarize
     #-----------
 
-    summary(cls_llk)
+    summary(cls_llk[[1]])
     summary(cls_wrd)
     summary(cls_inc)
     summary(cls_med)
@@ -85,7 +99,7 @@ This is a basic example which shows you how to classify a measurement
     # visualize
     #-----------
 
-    plot(cls_llk)
+    plot(cls_llk[[1]])
     plot(cls_wrd)
     plot(cls_inc)
     plot(cls_med)
