@@ -14,14 +14,17 @@ classify_composite(data, synoptics, r = 1.5, s = 0.6, t = 0.5)
 \item CoverageCode: Code for coverage type
 \item PctValue: Percentage cover value
 \item gbif_usageKey: GBIF species identifier
-}}
+}
+on wich recordings are identified.
+When NULL all data is assumed from same recording}
 
 \item{synoptics}{A dataframe containing reference syntaxa data with columns:
 \itemize{
 \item syntaxoncode: Code identifying the vegetation type
 \item usageKey: GBIF species identifier
 \item frequentie: Frequency of species in vegetation type (0-1)
-}}
+}
+@param normalised ignored logical variable}
 
 \item{r}{Weight for present species (1-2, default 1.5)}
 

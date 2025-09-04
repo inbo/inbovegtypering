@@ -4,7 +4,7 @@
 \alias{classify_likelihood}
 \title{Calculate Likelihood Index for Vegetation Classification}
 \usage{
-classify_likelihood(data, synoptics = "default")
+classify_likelihood(data, synoptics = "default", normalised = TRUE)
 }
 \arguments{
 \item{data}{A dataframe containing the plot data with columns:
@@ -14,14 +14,17 @@ classify_likelihood(data, synoptics = "default")
 \item CoverageCode: Code for coverage type
 \item PctValue: Percentage cover value
 \item gbif_usageKey: GBIF species identifier
-}}
+}
+on wich recordings are identified.
+When NULL all data is assumed from same recording}
 
 \item{synoptics}{A dataframe containing reference syntaxa data with columns:
 \itemize{
 \item syntaxoncode: Code identifying the vegetation type
 \item usageKey: GBIF species identifier
 \item frequentie: Frequency of species in vegetation type (0-1)
-}}
+}
+@param normalised ignored logical variable}
 }
 \value{
 A dataframe with columns:
@@ -44,26 +47,6 @@ The function:
 \item Converts percentage cover to fractions
 \item Calculates likelihood components for present and absent species
 \item Sums likelihood values by syntaxon
-}
-}
-\examples{
-\dontrun{
-# Example data structure
-data <- data.frame(
-  RecordingGivid = 1,
-  LayerCode = "K",
-  CoverageCode = "PCT",
-  PctValue = 50,
-  gbif_usageKey = 123
-)
-
-synoptics <- data.frame(
-  syntaxoncode = "A1",
-  usageKey = 123,
-  frequentie = 0.8
-)
-
-classify_likelihood(data, synoptics)
 }
 }
 \references{

@@ -22,4 +22,5 @@ test <- data.frame(syntaxonCode = rep("000", 2),
                    mean_if_present = c(2.43, 2.21))
 assert_correct_synoptics(test)
 assert_correct_synoptics(airquality)
+
 }

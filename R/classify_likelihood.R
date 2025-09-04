@@ -14,12 +14,15 @@
 #'     \item PctValue: Percentage cover value
 #'     \item gbif_usageKey: GBIF species identifier
 #'   }
+#' on wich recordings are identified.
+#' When NULL all data is assumed from same recording
 #' @param synoptics A dataframe containing reference syntaxa data with columns:
 #'   \itemize{
 #'     \item syntaxoncode: Code identifying the vegetation type
 #'     \item usageKey: GBIF species identifier
 #'     \item frequentie: Frequency of species in vegetation type (0-1)
 #'   }
+#'  @param normalised ignored logical variable
 #'
 #' @return A dataframe with columns:
 #'   \itemize{
@@ -42,32 +45,47 @@
 #' Journal of Vegetation Science, 19(4), 525-536.
 #'
 #' @importFrom dplyr left_join select filter mutate group_by summarise arrange
-#' @importFrom dplyr join_by
-#'
+#' @importFrom dplyr join_by select
+#' @importFrom tidyr nest unnest
 #' @examples
-#' \dontrun{
 #' # Example data structure
 #' data <- data.frame(
 #'   RecordingGivid = 1,
 #'   LayerCode = "K",
 #'   CoverageCode = "PCT",
 #'   PctValue = 50,
-#'   gbif_usageKey = 123
+#'   species_number = 123
 #' )
 #'
 #' synoptics <- data.frame(
-#'   syntaxoncode = "A1",
-#'   usageKey = 123,
-#'   frequentie = 0.8
+#'   syntaxonCode = "A1",
+#'   speciesNumber = 123,
+#'   frequency = 0.8,
+#'   mean_if_present = 2.4
 #' )
 #'
 #' classify_likelihood(data, synoptics)
-#' }
+#'
+#' classify_likelihood(data, synoptics = "default")
+#'
+#'\dontrun{
+#' con_taxa <- connect_db_taxonomy()
+#' test_record <- example_recordings |>
+#'   select(1:12) |>
+#'   link_taxon_info(con_taxa = con_taxa)
+#'
+#' classification <- classify_likelihood(test_record, synoptics = "default")
+#'}
 #' @export
-classify_likelihood <- function(data, synoptics = "default") {
+classify_likelihood <- function(data,
+                                synoptics = "default",
+                                normalised = TRUE) {
   synoptic_table <- assert_correct_synoptics(synoptics)
+  if (synoptics == "default") {
+    synoptic_table <-
+      utils::getFromNamespace("synoptic_table", "inbovegtypering")
+  }
 
-  # only works for one record a time
   combined <- synoptic_table |>
     left_join(
       data |>
@@ -89,11 +107,29 @@ classify_likelihood <- function(data, synoptics = "default") {
       )
     )
 
+  # Calculate likelihood for each record_id and syntaxon combination
   rv <- combined |>
-    group_by(.data$syntaxonCode) |>
-    summarise(likelihood = sum(.data$log_component, na.rm = TRUE)) |>
-    arrange(desc(.data$likelihood))
-  attr(rv, "indextype") <- "likelihood"
-  class(rv) <- c("inbovegclassification", class(rv))
-  rv
+    group_by(across(all_of(c("RecordingGivid", "syntaxonCode")))) |>
+    summarise(
+      likelihood = sum(.data$log_component, na.rm = TRUE),
+      .groups = "drop"
+    ) |>
+    group_by(across(all_of("RecordingGivid"))) |>
+    arrange(desc(.data$likelihood), .by_group = TRUE)
+
+  # Split into list by RecordingGivid and apply class/attributes to each element
+  classification_list <- rv |>
+    group_split() |>
+    map(function(x) {
+      attr(x, "indextype") <- "likelihood"
+      class(x) <- c("inbovegclassification", class(x))
+      x
+    })
+
+  # Name the list elements by RecordingGivid
+  names(classification_list) <- unique(rv$RecordingGivid)
+  class(classification_list) <-
+    c("inbovegclassification_list", class(classification_list))
+
+  classification_list
 }

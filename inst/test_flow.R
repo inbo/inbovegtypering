@@ -18,8 +18,11 @@ single_record <-
     code = "IV2012081611384756"
   )
 
-#Make observation compatible with synoptic table
-#--------------------------------------------------
+multiple_records <- #>30sec
+  read_inboveg_recording(
+    con_inboveg = con_veg,
+    con_taxa = conn_taxa,
+    survey = "MILKLIM_Heischraal2012")
 
 # classify
 #----------
