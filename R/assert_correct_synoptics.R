@@ -2,14 +2,16 @@
 #'
 #' @param object that needs to be assessed
 #' @return stop message or data.frame
+#' @export
 #'
 #' @examples
-#' test <- data.frame(syntaxonCode = rep("000", 2),
-#'                    speciesNumber = c(437, 463),
-#'                    frequency = c(1.1, 3.9),
-#'                    mean_if_present = c(2.43, 2.21))
+#' test <- data.frame(
+#'   syntaxonCode = rep("000", 2),
+#'   speciesNumber = c(437, 463),
+#'   frequency = c(1.1, 3.9),
+#'   mean_if_present = c(2.43, 2.21)
+#' )
 #' assert_correct_synoptics(test)
-#' assert_correct_synoptics(airquality)
 #'
 assert_correct_synoptics <- function(x) {
   # Get reference format from package namespace

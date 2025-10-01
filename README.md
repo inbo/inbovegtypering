@@ -69,16 +69,17 @@ This is a basic example which shows you how to classify a measurement
         con_inboveg = conn,
         con_taxa = conn2,
         survey = "MILKLIM_Heischraal2012",
-        code = "IV2012081611384756"
+        code = c("IV2012081611384756", "IV2012081612363304")
       )
 
 
     # classify
     #----------
-    record <- recordings |> filter(RecordingGivid == "IV2012081611384756")
+  
+    record <- recordings
     
     cls_llk <- classify_likelihood(record, synoptic_table, normalised = TRUE)
-    cls_wrd <- classify_weirdness(record, synoptic_data)
+    cls_wrd <- classify_weirdness(record, synoptic_table)
     cls_inc <- classify_incompleteness(record, synoptic_data, normalised = TRUE)
     cls_med <- classify_euclideqn(record, synoptic_data, normalised = TRUE)
     cls_cod <- classify_composite(record, synoptic_data, normalised = TRUE)

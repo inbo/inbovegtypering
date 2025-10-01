@@ -1,38 +1,26 @@
-#' Calculate Incompleteness Index
+#' Classify based on Incompleteness Index
 #'
-#' @description
-#' Calculates incompleteness index following van Tongeren et al. (2008)
+#' Implements Equation 6 from van Tongeren et al. (2008) [cite_start][cite: 1].
+#' Calculates the sum of contributions from species absent from the relevé.
 #'
-#' @inheritParams classify_likelihood
-#' @return An inbovegclassification object
-#' @export
-classify_incompleteness <- function(data, synoptics) {
-  combined <- synoptics |>
-    left_join(
-      data |>
-        select(
-          "RecordingGivid", "LayerCode",
-          "CoverageCode", "PctValue",
-          "gbif_usageKey"
-        ) |>
-        filter(.data$LayerCode == "K") |>
-        mutate(fraction = .data$PctValue / 100),
-      by = join_by(.data$usageKey == .data$gbif_usageKey)
-    ) |>
+#' @param data A dataframe of plot data.
+#' @param synoptics A dataframe of synoptic data.
+#' @param ... Additional arguments (not used).
+#' @return An object of class 'inbovegclassification_list'.
+classify_incompleteness <- function(data, synoptics, ...) {
+  base_df <- create_analysis_data(data, synoptics)
+
+  results <- base_df |>
     mutate(
-      presence = !is.na(.data$fraction) & .data$fraction > 0,
-      log_component = case_when(
-        !.data$presence ~ -2 * log(1 - pmin(.data$frequentie, 0.9999)),
-        TRUE ~ 0
-      )
-    ) # Only use absent species
+      presence = !is.na(PctValue),
+      freq_safe = pmax(frequency, 0.0001)
+    ) |>
+    filter(!presence) |> # Only species absent from relevé contribute
+    group_by(RecordingGivid, syntaxonCode) |>
+    summarise(
+      Incompleteness = sum(-2 * log(1 - freq_safe), na.rm = TRUE),
+      .groups = "drop"
+    )
 
-  rv <- combined |>
-    group_by(.data$syntaxoncode) |>
-    summarise(incompleteness = sum(.data$log_component)) |>
-    arrange(.data$incompleteness)
-
-  attr(rv, "indextype") <- "incompleteness"
-  class(rv) <- c("inbovegclassification", class(rv))
-  rv
+  post_process_classification(results, "Incompleteness")
 }

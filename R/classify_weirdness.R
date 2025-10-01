@@ -1,38 +1,25 @@
-#' Calculate Weirdness Index
+#' Classify based on Weirdness Index
 #'
-#' @description
-#' Calculates weirdness index following van Tongeren et al. (2008)
+#' Implements Equation 5 from van Tongeren et al. (2008) [cite_start][cite: 1].
+#' Calculates the sum of contributions from species present in the relevé.
 #'
-#' @inheritParams classify_likelihood
-#' @return An inbovegclassification object
-#' @export
-classify_weirdness <- function(data, synoptics) {
-  combined <- synoptics |>
-    left_join(
-      data |>
-        select(
-          "RecordingGivid", "LayerCode",
-          "CoverageCode", "PctValue",
-          "usageKey"
-        ) |>
-        filter(.data$LayerCode == "K") |>
-        mutate(fraction = .data$PctValue / 100),
-      by = join_by(.data$gbif_usageKey == .data$usageKey)
-    ) |>
+#' @param data A dataframe of plot data.
+#' @param synoptics A dataframe of synoptic data.
+#' @param ... Additional arguments (not used).
+#' @return An object of class 'inbovegclassification_list'.
+classify_weirdness <- function(data, synoptics, ...) {
+  base_df <- create_analysis_data(data, synoptics)
+
+  results <- base_df |>
     mutate(
-      presence = !is.na(.data$fraction) & .data$fraction > 0,
-      log_component = case_when(
-        presence ~ -2 * log(pmax(.data$frequentie, 0.0001)),
-        TRUE ~ 0
-      )
-    ) # Only use present species
-
-  rv <- combined |>
-    group_by(.data$syntaxoncode) |>
-    summarise(weirdness = sum(.data$log_component)) |>
-    arrange(.data$weirdness)
-
-  attr(rv, "indextype") <- "weirdness"
-  class(rv) <- c("inbovegclassification", class(rv))
-  rv
+      presence = !is.na(PctValue),
+      freq_safe = pmax(frequency, 0.0001)
+    ) |>
+    filter(presence) |> # Only species present in relevé contribute
+    group_by(RecordingGivid, syntaxonCode) |>
+    summarise(
+      Weirdness = sum(-2 * log(freq_safe), na.rm = TRUE),
+      .groups = "drop"
+    )
+  post_process_classification(results, "Weirdness")
 }

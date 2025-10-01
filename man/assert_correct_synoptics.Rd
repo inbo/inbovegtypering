@@ -16,11 +16,12 @@ stop message or data.frame
 Check correct synoptics format
 }
 \examples{
-test <- data.frame(syntaxonCode = rep("000", 2),
-                   speciesNumber = c(437, 463),
-                   frequency = c(1.1, 3.9),
-                   mean_if_present = c(2.43, 2.21))
+test <- data.frame(
+  syntaxonCode = rep("000", 2),
+  speciesNumber = c(437, 463),
+  frequency = c(1.1, 3.9),
+  mean_if_present = c(2.43, 2.21)
+)
 assert_correct_synoptics(test)
-assert_correct_synoptics(airquality)
 
 }

@@ -80,27 +80,11 @@
 classify_likelihood <- function(data,
                                 synoptics = "default",
                                 normalised = TRUE) {
-  if (inherits(synoptics, "data.frame")) {
-    synoptic_table <- synoptics
-  } else if (synoptics == "default") {
-    synoptic_table <-
-      utils::getFromNamespace("synoptic_table", "inbovegtypering")
-  }
-  synoptic_table <- assert_correct_synoptics(synoptics)
+  # create dataset
+  combined <- create_classification_data(data, synoptics)
 
-  combined <- synoptic_table |>
-    left_join(
-      data |>
-        unnest(cols = species_number) |> # species_number is a list col (several synoptic matches possible)
-        select(
-          "RecordingGivid", "LayerCode",
-          "CoverageCode", "PctValue",
-          "species_number"
-        ) |>
-        filter(.data$LayerCode == "K") |>
-        mutate(fraction = .data$PctValue / 100),
-      by = join_by(x$speciesNumber == y$species_number)
-    ) |>
+  # create calc variables
+  combined <- combined |>
     mutate(
       presence = !is.na(.data$fraction) & .data$fraction > 0,
       log_component = case_when(
@@ -119,7 +103,7 @@ classify_likelihood <- function(data,
     ) |>
     group_by(across(all_of("RecordingGivid"))) |>
     arrange(desc(.data$likelihood), .by_group = TRUE)
-
+  tmp <<- rv
   # Split into list by RecordingGivid and apply class/attributes to each element
   classification_list <- rv |>
     group_split() |>
@@ -129,6 +113,24 @@ classify_likelihood <- function(data,
       class(x) <- c("inbovegclassification", class(x))
       x
     })
+
+  # indien group_split deprecated wordt:
+  # classification_list <- rv |>
+  #   nest() |>
+  #   mutate(data =
+  #     map2(
+  #       data, RecordingGivid,
+  #       function(df, id) {
+  #         df <- df |> mutate(RecordingGivid = id, .before = 1)
+  #         attr(df, "indextype") <- "likelihood"
+  #         attr(df, "RecordingGivid") <- id
+  #         class(df) <- c("inbovegclassification", class(df))
+  #         df
+  #       }
+  #     )
+  #   ) |>
+  #   pull(data)
+
 
   # Name the list elements by RecordingGivid
   names(classification_list) <- unique(rv$RecordingGivid)

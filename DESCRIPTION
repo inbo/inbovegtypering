@@ -20,9 +20,11 @@ Imports:
     ggplot2,
     inbodb,
     readr,
+    rgbif,
     rlang,
     RSQLite,
-    tibble
+    tibble,
+    tidyr
 Config/checklist/communities: inbo
 Config/checklist/keywords: vegetation; classification
 Encoding: UTF-8
