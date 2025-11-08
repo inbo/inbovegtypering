@@ -96,18 +96,22 @@ post_process_classification <- function(results_df, index_name) {
     dplyr::group_by(.data$RecordingGivid) |>
     dplyr::arrange(!!index_sym, .by_group = TRUE)
 
+  # Get the group keys (RecordingGivids) before splitting
+  group_keys <- dplyr::group_keys(rv) |> dplyr::pull(.data$RecordingGivid)
+
   # Split into a list, one element per RecordingGivid
   classification_list <- rv |>
     dplyr::group_split(.keep = FALSE) |> # .keep=FALSE to drop RecordingGivid
-    purrr::map(function(x) {
+    purrr::map2(group_keys, function(x, givid) {
       # Re-add attributes
       attr(x, "indextype") <- index_name
+      attr(x, "RecordingGivid") <- givid # Add the Givid attribute
       class(x) <- c("inbovegclassification", "data.frame")
       x
     })
 
   # Name the list elements by RecordingGivid
-  names(classification_list) <- unique(rv$RecordingGivid)
+  names(classification_list) <- group_keys
   class(classification_list) <-
     c("inbovegclassification_list", "list")
 

@@ -16,12 +16,12 @@ summary.inbovegclassification <- function(object, n = 5, ...) {
   indextype <- attr(object, "indextype")
   recording <- attr(object, "RecordingGivid")
 
-  if (ncol(object) <= 2) {
+  if (ncol(object) < 2) { # Changed from <= 2 to < 2
     stop("Classification object is empty or malformed.")
   }
 
   # Get the main index column
-  index_col_name <- names(object)[3]
+  index_col_name <- names(object)[2]
   index_values <- object[[index_col_name]]
 
   # Prepare top matches
@@ -42,7 +42,7 @@ summary.inbovegclassification <- function(object, n = 5, ...) {
     best_match = object$syntaxonCode[1],
     best_value = index_values[1],
     top_matches = top_matches_format,
-    value_stats = stats::summary(index_values)
+    value_stats = summary(index_values) # REMOVED stats::
   )
 
   class(stats) <- "summary.inbovegclassification"

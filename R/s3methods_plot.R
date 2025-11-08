@@ -162,7 +162,7 @@ plot_classification_rose <- function(data,
   # Calculate angles (clockwise from top)
   plot_data <- plot_data |>
     dplyr::mutate(
-      angle = (pi / 2) - (seq(0, 2 * pi, length.out = n_types + 1)[-.N])
+      angle = (pi / 2) - (seq(0, 2 * pi, length.out = n_types + 1)[-(n_types + 1)])
     )
 
   # Calculate x, y coordinates

@@ -20,18 +20,18 @@ print.inbovegclassification <- function(x, n = 10, ...) {
   cat(sprintf("--- Classification for Relevé: %s ---\n", recording))
   cat(sprintf("Method: %s (Lower values are better matches)\n\n", indextype))
 
-  # Get the main index column name (the one *after* RecordingGivid and syntaxonCode)
-  # This is safer than assuming the column name matches indextype
-  if (ncol(x) > 2) {
-    index_col_name <- names(x)[3]
-    # Re-order by this column just in case
+  # The object x (after group_split) has syntaxonCode as col 1
+  # and the primary index as col 2. Other indices may follow.
+  if (ncol(x) >= 2) {
+    index_col_name <- names(x)[2] # Get col 2
+
     print_data <- x[order(x[[index_col_name]]), ]
 
     # Format for printing
     print_data_format <- data.frame(
       Rank = 1:nrow(print_data),
-      Syntaxon = print_data$syntaxonCode,
-      Value = format(print_data[[index_col_name]], digits = 4, nsmall = 2),
+      Syntaxon = print_data[[1]], # Use Col 1 by position
+      Value = format(print_data[[2]], digits = 4, nsmall = 2), # Use Col 2
       stringsAsFactors = FALSE
     )
     names(print_data_format)[3] <- indextype

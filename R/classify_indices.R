@@ -183,9 +183,9 @@ classify_cod <- function(analysis_df, r = 1.5, s = 0.60, ...) {
       .groups = "drop"
     ) |>
     dplyr::mutate(
-      qualitative_part = (.data$r * .data$Weirdness + .data$Incompleteness) / .data$r,
+      qualitative_part = (r * .data$Weirdness + .data$Incompleteness) / r,
       # Handle MED = 0 cases
-      CoD = .data$qualitative_part * (pmax(.data$MED, 0.0001)^.data$s)
+      CoD = .data$qualitative_part * (pmax(.data$MED, 0.0001)^s)
     ) |>
     dplyr::select(
       .data$RecordingGivid, .data$syntaxonCode, .data$CoD,
