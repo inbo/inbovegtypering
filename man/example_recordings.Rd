@@ -5,30 +5,24 @@
 \alias{example_recordings}
 \title{Example vegetation recordings}
 \format{
-A data frame with 838 rows and 18 variables:
+A data frame with example variables:
 \describe{
 \item{Name}{Name of the project}
 \item{RecordingGivid}{Name of the record}
 \item{UserReference}{Naming in the project}
 \item{LayerCode}{Layer identifier}
 \item{CoverCode}{Coverage percentage of the layer}
-\item{OriginalName}{Orignal scheintific na;e}
+\item{OriginalName}{Original scientific name}
 \item{ScientificName}{Correct scientific name}
 \item{TaxonGroupCode}{Grouping of species}
-\item{PhenologyCode}{?}
-\item{Comment}{Optional comments}
-\item{CoverageCode}{Coverage code associated with the recording scale}
-\item{PctValue}{Percentage coverage over the whole plog}
+\item{PctValue}{Percentage coverage over the whole plot}
 \item{RecordingScale}{Scale on which the recordings are written down}
-\item{usageKey}{GBIF usageKey, synonyms have different usageKeys}
-\item{acceptedUsageKey}{GBIF usageKey for the accepted name for synonyms}
-\item{rank}{GBIF matched rank}
-\item{speciesKey}{GBIF species key}
-\item{genusKey}{GBIF genus key}
+\item{species_number}{List column with matching synoptic species numbers}
+... and other columns from inbodb.
 }
 }
 \source{
-Generated sample data from Cydonia database in INBO
+Generated sample data from Cydonia database in INBO.
 }
 \usage{
 example_recordings
@@ -36,7 +30,5 @@ example_recordings
 \description{
 A dataset containing sample vegetation recordings for testing and examples.
 The data is retrieved from the INBOVEG database Cydonia.
-The last 5 colums are added for easier use and are created by
-rgbif::name_backbone_checklist() and some manual curation
 }
 \keyword{datasets}

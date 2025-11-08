@@ -5,20 +5,16 @@
 \alias{example_synoptics}
 \title{Example synoptic classification table}
 \format{
-A data frame with 7800 rows and 7 variables (24 syntaxons):
+A data frame with 4 variables:
 \describe{
-\item{syntaxonCode}{Recording identifier}
-\item{speciesNumber}{Species identifier}
-\item{frequency}{Presence frequency of a species in a syntaxon}
-\item{mean_if_present}{The average frequency when present in a syntaxon}
-\item{row_id}{Rownumber for use when there are several GBIF usageKeys for
-the same species }
-\item{usageKey}{GBIF usageKey of the species}
-\item{acceptedUsageKey}{GBIF accepted usageKey when a synonym}
+\item{syntaxonCode}{Syntaxon identifier}
+\item{speciesNumber}{Species identifier (links to species list)}
+\item{frequency}{Presence frequency of a species (0-100)}
+\item{mean_if_present}{The average cover when present (0-100)}
 }
 }
 \source{
-Subset of syntaxons that can be classified based on vegetation
+Subset of syntaxons for classification.
 }
 \usage{
 example_synoptics
