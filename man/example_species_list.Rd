@@ -3,26 +3,22 @@
 \docType{data}
 \name{example_species_list}
 \alias{example_species_list}
-\title{Example species list}
+\title{Example Species List}
 \format{
-A data frame with species matching information:
+A data frame with the following columns:
 \describe{
-\item{speciesName}{Name of species (e.g., from OriginalName)}
-\item{scientificName}{Accepted scientific name}
-\item{usageKey}{GBIF usageKey}
-\item{acceptedUsageKey}{GBIF acceptedUsageKey}
-\item{speciesNumber}{Internal species identifier}
-... and other columns.
+\item{speciesName}{Character. The vernacular or display name of the species.}
+\item{scientificName}{Character. The full scientific name.}
+\item{usageKey}{Integer. The GBIF backbone usage key.}
+\item{acceptedusageKey}{Integer. The GBIF backbone key for the accepted taxon.}
+\item{speciesNumber}{Integer. The internal numeric identifier used to link recordings to the synoptic table.}
 }
-}
-\source{
-Internal INBO species list.
 }
 \usage{
-example_species_list
+data(example_species_list)
 }
 \description{
-A dataset linking species names, GBIF keys, and the internal
-\code{speciesNumber} used in the synoptic table.
+A lookup table mapping internal species numbers to scientific names and
+GBIF taxonomic keys.
 }
 \keyword{datasets}

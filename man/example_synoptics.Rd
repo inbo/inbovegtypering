@@ -3,24 +3,25 @@
 \docType{data}
 \name{example_synoptics}
 \alias{example_synoptics}
-\title{Example synoptic classification table}
+\title{Example Synoptic Table}
 \format{
-A data frame with 4 variables:
+A data frame with the following columns:
 \describe{
-\item{syntaxonCode}{Syntaxon identifier}
-\item{speciesNumber}{Species identifier (links to species list)}
-\item{frequency}{Presence frequency of a species (0-100)}
-\item{mean_if_present}{The average cover when present (0-100)}
+\item{syntaxonCode}{Character. Unique identifier for the vegetation type (syntaxon).}
+\item{speciesNumber}{Integer. Internal numeric identifier for the species, linking to \code{example_species_list}.}
+\item{frequency}{Numeric. The frequency of the species within the syntaxon (percentage 0-100).}
+\item{mean_if_present}{Numeric. The mean cover of the species calculated only for plots where it is present (percentage 0-100).}
+\item{row_id}{Integer/Character. Unique identifier for the row in the synoptic table.}
+\item{usageKey}{Integer. The GBIF backbone usage key for the taxon.}
+\item{acceptedUsageKey}{Integer. The GBIF backbone key for the accepted taxon.}
 }
-}
-\source{
-Subset of syntaxons for classification.
 }
 \usage{
-example_synoptics
+data(example_synoptics)
 }
 \description{
-A dataset containing the necessary info for classification of vegetation
-in syntaxons.
+A synoptic table defining vegetation syntaxa (types). It links syntaxon codes
+to internal species numbers and provides frequency and characteristic cover
+statistics.
 }
 \keyword{datasets}

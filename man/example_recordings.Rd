@@ -3,32 +3,41 @@
 \docType{data}
 \name{example_recordings}
 \alias{example_recordings}
-\title{Example vegetation recordings}
+\title{Example Vegetation Recordings}
 \format{
-A data frame with example variables:
+A data frame with the following columns:
 \describe{
-\item{Name}{Name of the project}
-\item{RecordingGivid}{Name of the record}
-\item{UserReference}{Naming in the project}
-\item{LayerCode}{Layer identifier}
-\item{CoverCode}{Coverage percentage of the layer}
-\item{OriginalName}{Original scientific name}
-\item{ScientificName}{Correct scientific name}
-\item{TaxonGroupCode}{Grouping of species}
-\item{PctValue}{Percentage coverage over the whole plot}
-\item{RecordingScale}{Scale on which the recordings are written down}
-\item{species_number}{List column with matching synoptic species numbers}
-... and other columns from inbodb.
+\item{Name}{Character. The name of the recording site or project.}
+\item{RecordingGivid}{Character. Unique identifier for the specific recording event.}
+\item{UserReference}{Character. User-provided reference code for the recording.}
+\item{LayerCode}{Character. Code indicating the vegetation layer (e.g., "K" for herb layer, "S" for shrub layer).}
+\item{CoverCode}{Character. The original cover code recorded in the field (e.g., Braun-Blanquet code).}
+\item{OriginalName}{Character. The taxon name as originally recorded.}
+\item{ScientificName}{Character. The resolved scientific name of the taxon.}
+\item{TaxonGroupCode}{Character. Code indicating the taxonomic group (e.g., "Vascular").}
+\item{PhenologyCode}{Character. Code indicating the phenological stage.}
+\item{Comment}{Character. Field observations or comments.}
+\item{CoverageCode}{Character. Standardized coverage code.}
+\item{PctValue}{Numeric. The cover value transformed to a percentage (0-100). Used for quantitative distance calculations.}
+\item{RecordingScale}{Character. The name of the scale used for recording (e.g., "Londo", "Braun-Blanquet").}
+\item{usageKey}{Integer. The GBIF backbone usage key for the taxon.}
+\item{acceptedUsageKey}{Integer. The GBIF backbone key for the accepted taxon.}
+\item{rank}{Character. The taxonomic rank of the record (e.g., "SPECIES").}
+\item{speciesKey}{Integer. GBIF key for the species rank.}
+\item{genusKey}{Integer. GBIF key for the genus rank.}
+\item{familyKey}{Integer. GBIF key for the family rank.}
+\item{orderKey}{Integer. GBIF key for the order rank.}
+\item{classKey}{Integer. GBIF key for the class rank.}
+\item{phylumKey}{Integer. GBIF key for the phylum rank.}
+\item{kingdomKey}{Integer. GBIF key for the kingdom rank.}
 }
-}
-\source{
-Generated sample data from Cydonia database in INBO.
 }
 \usage{
-example_recordings
+data(example_recordings)
 }
 \description{
-A dataset containing sample vegetation recordings for testing and examples.
-The data is retrieved from the INBOVEG database Cydonia.
+A dataset containing vegetation recordings (relevés). This dataset includes
+detailed taxonomic information (GBIF keys) and cover values transformed to
+percentages.
 }
 \keyword{datasets}

@@ -2,74 +2,38 @@
 % Please edit documentation in R/classify_vegetation.R
 \name{classify_vegetation}
 \alias{classify_vegetation}
-\title{Classify vegetation relevés}
+\title{Classify Vegetation Recordings}
 \usage{
-classify_vegetation(
-  data,
-  synoptics = "default",
-  method = c("cod", "likelihood", "weirdness", "incompleteness", "med"),
-  ...
-)
+classify_vegetation(data, synoptics, layer = "ALL", r = 0.5, s = 0.6, t = 0.5)
 }
 \arguments{
-\item{data}{A data frame of relevé(s) data, prepared by
-\code{read_inboveg_recording()} or in the same format. It must contain
-\code{RecordingGivid}, \code{species_number}, and \code{PctValue}.}
+\item{data}{A data frame containing the vegetation recordings. Must contain columns:
+\code{recording} (ID), \code{species_number}, \code{pct_value} (cover percentage 0-100),
+and \code{layer_code}.}
 
-\item{synoptics}{A data frame with the synoptic table, or the string
-"default" to use the package's default table. See
-\code{get_synoptic_table()}.}
+\item{synoptics}{A data frame, a file path, or the string "default".
+If a data frame, it must contain columns: \code{syntaxon_code}, \code{species_number},
+\code{frequency} (0-100), and \code{mean_if_present} (0-100).
+If "default" or "package", the function looks for a file named
+\code{synoptic_table.csv} in the package's \code{extdata} directory.}
 
-\item{method}{A character string specifying the classification method.
-One of:
-\itemize{
-\item \code{"cod"}: Composite Distance (Eq. 9, default)
-\item \code{"likelihood"}: -2ln(Likelihood) (Eq. 4)
-\item \code{"weirdness"}: Weirdness Index (Eq. 5)
-\item \code{"incompleteness"}: Incompleteness Index (Eq. 6)
-\item \code{"med"}: Modified Euclidean Distance (Eq. 8)
-}}
+\item{layer}{Character string indicating the layer code to filter from \code{data}.
+Defaults to "ALL", ( other examples "K" (Herb layer)).}
 
-\item{...}{Additional arguments passed to the specific classification
-function (e.g., \code{r} and \code{s} for \code{"cod"}, \code{t} for \code{"med"}).}
+\item{r}{Numeric. Weighting parameter for the "Weirdness" component in the
+Composite Distance (CoD). Default is 0.50.}
+
+\item{s}{Numeric. Weighting exponent for the qualitative part (Likelihood) in
+the CoD. Default is 0.60.}
+
+\item{t}{Numeric. Weighting parameter for the presence/absence balance in the
+Modified Euclidean Distance (MED). Default is 0.50.}
 }
 \value{
-An object of class \code{inbovegclassification_list}, containing one
-\code{inbovegclassification} object for each \code{RecordingGivid}.
+An object of class \code{inbovegclassification_list}, which is a list of
+objects of class \code{inbovegclassification} (one per recording).
 }
 \description{
-This is the main user-facing function for classifying one or more vegetation
-relevés using a chosen method from van Tongeren (2008).
-}
-\examples{
-\dontrun{
-# Assuming 'my_releve' is a correctly formatted data frame
-# and 'con_taxa' is a connection
-
-# 1. Get relevé data
-con_inboveg <- connect_db_inboveg(test = TRUE)
-con_taxa <- connect_db_taxonomy(test = TRUE) # Needs setup
-my_releve <- read_inboveg_recording(con_inboveg, con_taxa,
-  survey = "ExampleSurvey",
-  code = "ExampleReleve1"
-)
-
-# 2. Classify using the default method (Composite Distance)
-classification_cod <- classify_vegetation(my_releve, synoptics = "default")
-
-# 3. Classify using -2ln(Likelihood)
-classification_ll <- classify_vegetation(my_releve,
-  synoptics = "default",
-  method = "likelihood"
-)
-
-# 4. Classify using Modified Euclidean Distance with custom 't'
-classification_med <- classify_vegetation(my_releve,
-  synoptics = "default",
-  method = "med", t = 0.5
-)
-
-# Print results
-print(classification_cod)
-}
+Calculates similarity indices (Weirdness, Incompleteness, Likelihood, MED, CoD)
+for vegetation recordings against a synoptic table of syntaxa.
 }

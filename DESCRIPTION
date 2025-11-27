@@ -15,10 +15,13 @@ BugReports: https://github.com/inbo/inbovegtypering/issues
 Depends: 
     R (>= 4.4.0)
 Imports:
+    assertthat,
     DBI,
     dplyr,
     ggplot2,
+    gridExtra,
     inbodb,
+    purrr,
     readr,
     rgbif,
     rlang,
