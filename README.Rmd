@@ -1,16 +1,9 @@
 ---
 output: github_document
+title: "Inbovegtypering package"
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  echo = TRUE,
-  comment = "#>",
-  fig.path = file.path("man", "figures", "README-"),
-  out.width = "100%"
-)
-```
+# Inbovegtypering package
 
 <!-- badges: start -->
 [![Project Status: Concept – Minimal or no implementation has been done yet, or the repository is only intended to be a limited example, demo, or proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
@@ -23,159 +16,133 @@ knitr::opts_chunk$set(
 ![r-universe package](https://inbo.r-universe.dev/badges/inbovegtypering)
 [![Codecov test coverage](https://codecov.io/gh/inbo/inbovegtypering/branch/main/graph/badge.svg)](https://app.codecov.io/gh/inbo/inbovegtypering?branch=main)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/inbo/inbovegtypering.svg)
-![GitHub repo size](https://img.shields.io/github/repo-size/inbo/inbovegtypering.svg)
-<!-- badges: end -->
 
-# inbovegtypering
 
-The goal of inbovegtypering is to classify vegetation relevés (plots) into predefined vegetation types based on the methods described by van Tongeren et al. (2008).
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  echo = TRUE,
+  comment = "#>",
+  fig.path = file.path("man", "figures", "README-"),
+  out.width = "100%"
+)
+```
 
-It provides a single function, classify_vegetation(), to calculate various indices:
 
-- Composite Distance (CoD) (Eq. 9)
-- 2ln(Likelihood) (Eq. 4)
-- Weirdness (Eq. 5)
-- Incompleteness (Eq. 6)
-- Modified Euclidean Distance (MED) (Eq. 8)
+The goal of inbovegtypering is to classify vegetation relevés (plots) into predefined vegetation types (syntaxa) based on the methods described by van Tongeren et al. (2008). It implements the ASSOCIA algorithm for supervised clustering.
 
 ## Installation
 
-You can install the development version from GitHub with:
+You can install the development version of inbovegtypering from GitHub with:
 
-```{r}
-# install.packages("remotes")
-remotes::install_github("inbo/inbovegtypering")
+```{r install}
+# install.packages("devtools")
+devtools::install_github("inbo/inbovegtypering")
+
 ```
+
+
+## Methodology
+
+The core function classify_vegetation() calculates similarity indices between your vegetation recordings and a reference synoptic table.
+
+The indices include:
+
+- **Composite Distance (CoD):** The primary classification metric combining qualitative and quantitative data.
+
+- **(un)Likelihood (-2ln):** A qualitative distance measure based on species presence/absence.
+
+- **Weirdness:** Measures the presence of unexpected species.
+
+- **Incompleteness:** Measures the absence of expected species.
+
+- **Modified Euclidean Distance (MED):** A quantitative distance measure based on species abundance (cover).
+
+**Note:** For all these indices, a **lower value** indicates a **better** match.
 
 ## Workflow
 
-The classification process relies on three key pieces of data:
+The classification process requires two main inputs:
 
-Relevé Data: Your own plot data. This must contain:
+1. **Recordings Data:** Your plot data containing species cover values.
 
-- RecordingGivid: A unique ID for each plot.
-- LayerCode: The vegetation layer (e.g., "K" for herb layer).
-- PctValue: The percentage cover (0-100) for each species.
-- species_number: A list-column containing the internal species ID(s) that match the synoptic table. The read_inboveg_recording() function is designed to generate this.
+1. **Synoptic Table:** A reference table defining the vegetation types (syntaxa) with species frequencies and characteristic cover.
 
-Synoptic Table:
 
-- The reference data. This table defines the vegetation types. It must contain:
-- syntaxonCode: The unique ID for the vegetation type.
-- speciesNumber: The internal species ID.
-- frequency: The frequency of the species in the type (0-100).
-- mean_if_present: The average cover of the species when it is present (0-100).
+### Example: Basic Classification
 
-Species List: 
+This example uses the dummy datasets included in the package (example_recordings and example_synoptics).
 
-A helper table (used internally by read_inboveg_recording) to link species names and GBIF keys to the speciesNumber in the synoptic table.
 
-## Example 1: Basic Classification (with Dummy Data)
-
-This example shows the core classification workflow using self-contained dummy data.
-
-```{r}
-library(inbovegtypering)
-library(tibble)
-library(dplyr)
-
-# --- 1. Prepare Data ---
-
-# A) Create a dummy Synoptic Table
-# We have two types: "Forest_A" (rich in species 101, 102)
-# and "Grassland_B" (rich in species 103, 104)
-dummy_synoptic_table <- tibble::tribble(
-  ~syntaxonCode, ~speciesNumber, ~frequency, ~mean_if_present,
-  "Forest_A",     101,            80,         15,
-  "Forest_A",     102,            70,         10,
-  "Forest_A",     103,            10,         5,
-  "Forest_A",     104,            5,          1,
-  "Grassland_B",  101,            5,          2,
-  "Grassland_B",  102,            10,         2,
-  "Grassland_B",  103,            90,         25,
-  "Grassland_B",  104,            85,         20
-)
-
-# B) Create a dummy Relevé (Plot)
-# This plot has high cover of species 103 & 104, so it should match "Grassland_B".
-# The `species_number` column MUST be a list.
-dummy_releve <- tibble::tribble(
-  ~RecordingGivid, ~LayerCode, ~PctValue, ~species_number,
-  "Plot_1",        "K",        20,        list(103L),
-  "Plot_1",        "K",        15,        list(104L),
-  "Plot_1",        "K",        2,         list(101L)
-)
-
-# --- 2. Classify the Relevé ---
-
-# Use the main function 'classify_vegetation()'
-# We will test two different methods
-
-# Method: Composite Distance (CoD)
-cls_cod <- classify_vegetation(
-  data = dummy_releve,
-  synoptics = dummy_synoptic_table,
-  method = "cod"
-)
-
-# Method: -2ln(Likelihood)
-cls_llk <- classify_vegetation(
-  data = dummy_releve,
-  synoptics = dummy_synoptic_table,
-  method = "likelihood"
-)
-
-# --- 3. Inspect the Results ---
-
-# A) Print the classification object
-# It shows the top matches (lower values are better)
-print(cls_cod)
-
-# B) Get a statistical summary
-summary(cls_cod)
-
-# C) Plot the classification rose
-# The longest spoke is the best match
-plot(cls_cod, types = c("Forest_A", "Grassland_B"))
-
-# Plot the 'likelihood' results
-plot(cls_llk, types = c("Forest_A", "Grassland_B"))
-```
-
-## Example 2: Real Workflow (with Database)
-
-This is the intended workflow for connecting to INBO databases. This example will not run without a database connection and credentials.
-
-```
+```{r examplesnippet}
 library(inbovegtypering)
 library(dplyr)
 
-# --- 1. Connect to Databases ---
-# This requires credentials and connection to the INBO network
-con_inboveg <- connect_db_inboveg()
-con_taxa <- connect_db_taxonomy()
+# 1. Load Example Data
+# --------------------
+data("example_recordings")
+data("example_synoptics")
 
-# --- 2. Read Relevé Data ---
-# This function gets the plot data from Cydonia AND
-# links it to the taxonomy database to create the 'species_number' column.
-my_releve <- read_inboveg_recording(
-  con_inboveg = con_inboveg,
-  con_taxa = con_taxa,
-  survey = "MILKLIM_Heischraal2012",
-  code = "IV2012081611384756"
+# Inspect the recordings (5 plots)
+head(example_recordings)
+
+# 2. Run Classification
+# ---------------------
+# We classify the recordings against the provided synoptic table.
+# By default, this calculates the Composite Distance (CoD) and all sub-indices.
+classification_results <- classify_vegetation(
+  data = example_recordings,
+  synoptics = example_synoptics,
+  layer = "K" # Analyze the herb layer
 )
 
-# --- 3. Classify Relevé ---
-# We can use synoptics = "default" to load the synoptic table
-# included with the inbovegtypering package.
-classification <- classify_vegetation(
-  data = my_releve,
-  synoptics = "default",
-  method = "cod"
-)
+# 3. Inspect Results
+# ------------------
 
-# --- 4. Inspect Results ---
-print(classification)
-summary(classification)
-plot(classification, types = 12) # Plot the top 12 matches
+# Print the result object (shows top matches for each recording)
+print(classification_results)
+
+# Get a detailed summary for the first recording
+# Shows top 5 matches sorted by CoD
+summary(classification_results, recording_ids = "REC-01", top_n = 5)
+
+# 4. Visualization
+# ----------------
+
+# A) Classification Rose Plot
+# Visualizes the "distance" to the best matching syntaxa.
+# Longer spokes = Better Match.
+# We plot the results for REC-01 and REC-02 (which are very similar)
+plot(classification_results[1:2], 
+     indextype = "cod", 
+     types = 10, 
+     ncol = 2, nrow = 1)
+
+# B) Classification Bar Chart
+# Shows the distance scores directly (Shorter bars = Better Match)
+# Useful for comparing the exact metric values.
+barplot(classification_results[1:2], 
+        indextype = "cod", 
+        types = 10,
+        ncol = 2, nrow = 1)
 ```
+
+
+## Using Default Synoptics
+
+If the package includes a default synoptic table in inst/extdata/synoptic_table.csv, you can use the shorthand "default" argument:
+
+
+```{r defaultsynoptics}
+results <- classify_vegetation(
+  data = my_recordings,
+  synoptics = "default"
+)
+```
+
+
+## References
+
+van Tongeren, O., Gremmen, N., & Hennekens, S. (2008). Assignment of relevés to pre-defined classes by supervised clustering of plant communities using a new composite index. Journal of Vegetation Science, 19(4), 525-536.
+
+

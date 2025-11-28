@@ -1,3 +1,8 @@
+# inbovegtypering 0.2.0
+
+* complete overhaul
+* proof of concept
+
 # inbovegtypering 0.1.1
 
 * restyle code

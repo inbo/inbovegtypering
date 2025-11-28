@@ -17,3 +17,5 @@
 ^pkgdown$
 ^development\$
 ^development$
+^\.vscode$
+^data-exclude$
