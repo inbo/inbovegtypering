@@ -1,17 +1,9 @@
 ---
 output: github_document
+title: "Inbovegtypering package"
 ---
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = file.path("man", "figures", "README-"),
-  out.width = "100%"
-)
-```
+# Inbovegtypering package
 
 <!-- badges: start -->
 [![Project Status: Concept – Minimal or no implementation has been done yet, or the repository is only intended to be a limited example, demo, or proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
@@ -24,45 +16,133 @@ knitr::opts_chunk$set(
 ![r-universe package](https://inbo.r-universe.dev/badges/inbovegtypering)
 [![Codecov test coverage](https://codecov.io/gh/inbo/inbovegtypering/branch/main/graph/badge.svg)](https://app.codecov.io/gh/inbo/inbovegtypering?branch=main)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/inbo/inbovegtypering.svg)
-![GitHub repo size](https://img.shields.io/github/repo-size/inbo/inbovegtypering.svg)
-<!-- badges: end -->
 
-# inbovegtypering
 
-The goal of inbovegtypering is to ...
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  echo = TRUE,
+  comment = "#>",
+  fig.path = file.path("man", "figures", "README-"),
+  out.width = "100%"
+)
+```
+
+
+The goal of inbovegtypering is to classify vegetation relevés (plots) into predefined vegetation types (syntaxa) based on the methods described by van Tongeren et al. (2008). It implements the ASSOCIA algorithm for supervised clustering.
 
 ## Installation
 
-You can install the development version from [GitHub](https://github.com/) with:
+You can install the development version of inbovegtypering from GitHub with:
 
-``` r
-# install.packages("remotes")
-remotes::install_github("inbo/inbovegtypering")
+```{r install}
+# install.packages("devtools")
+devtools::install_github("inbo/inbovegtypering")
+
 ```
 
-## Example
 
-This is a basic example which shows you how to solve a common problem:
+## Methodology
 
-```{r example}
+The core function classify_vegetation() calculates similarity indices between your vegetation recordings and a reference synoptic table.
+
+The indices include:
+
+- **Composite Distance (CoD):** The primary classification metric combining qualitative and quantitative data.
+
+- **(un)Likelihood (-2ln):** A qualitative distance measure based on species presence/absence.
+
+- **Weirdness:** Measures the presence of unexpected species.
+
+- **Incompleteness:** Measures the absence of expected species.
+
+- **Modified Euclidean Distance (MED):** A quantitative distance measure based on species abundance (cover).
+
+**Note:** For all these indices, a **lower value** indicates a **better** match.
+
+## Workflow
+
+The classification process requires two main inputs:
+
+1. **Recordings Data:** Your plot data containing species cover values.
+
+1. **Synoptic Table:** A reference table defining the vegetation types (syntaxa) with species frequencies and characteristic cover.
+
+
+### Example: Basic Classification
+
+This example uses the dummy datasets included in the package (example_recordings and example_synoptics).
+
+
+```{r examplesnippet}
 library(inbovegtypering)
-## basic example code
+library(dplyr)
+
+# 1. Load Example Data
+# --------------------
+data("example_recordings")
+data("example_synoptics")
+
+# Inspect the recordings (5 plots)
+head(example_recordings)
+
+# 2. Run Classification
+# ---------------------
+# We classify the recordings against the provided synoptic table.
+# By default, this calculates the Composite Distance (CoD) and all sub-indices.
+classification_results <- classify_vegetation(
+  data = example_recordings,
+  synoptics = example_synoptics,
+  layer = "K" # Analyze the herb layer
+)
+
+# 3. Inspect Results
+# ------------------
+
+# Print the result object (shows top matches for each recording)
+print(classification_results)
+
+# Get a detailed summary for the first recording
+# Shows top 5 matches sorted by CoD
+summary(classification_results, recording_ids = "REC-01", top_n = 5)
+
+# 4. Visualization
+# ----------------
+
+# A) Classification Rose Plot
+# Visualizes the "distance" to the best matching syntaxa.
+# Longer spokes = Better Match.
+# We plot the results for REC-01 and REC-02 (which are very similar)
+plot(classification_results[1:2], 
+     indextype = "cod", 
+     types = 10, 
+     ncol = 2, nrow = 1)
+
+# B) Classification Bar Chart
+# Shows the distance scores directly (Shorter bars = Better Match)
+# Useful for comparing the exact metric values.
+barplot(classification_results[1:2], 
+        indextype = "cod", 
+        types = 10,
+        ncol = 2, nrow = 1)
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? 
-You can include R chunks like so:
 
-```{r cars}
-summary(cars)
+## Using Default Synoptics
+
+If the package includes a default synoptic table in inst/extdata/synoptic_table.csv, you can use the shorthand "default" argument:
+
+
+```{r defaultsynoptics}
+results <- classify_vegetation(
+  data = my_recordings,
+  synoptics = "default"
+)
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
-`devtools::build_readme()` is handy for this.
 
-You can also embed plots, for example:
+## References
 
-```{r pressure, echo = FALSE, eval = FALSE}
-plot(pressure)
-```
+van Tongeren, O., Gremmen, N., & Hennekens, S. (2008). Assignment of relevés to pre-defined classes by supervised clustering of plant communities using a new composite index. Journal of Vegetation Science, 19(4), 525-536.
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
+

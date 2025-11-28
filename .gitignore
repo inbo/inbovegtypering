@@ -20,3 +20,10 @@ docs
 libs
 output
 renv/library
+*.RDS
+development/zzz_local_data/
+development/inst/
+development/data/
+data-exclude/
+.vscode/
+

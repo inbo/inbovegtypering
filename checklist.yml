@@ -1,14 +1,38 @@
 description: Configuration file for checklist::check_pkg()
 package: yes
 allowed:
-  warnings: []
-  notes:
-  - motivation: Initial commit
+  warnings:
+  - motivation: No IO site created for the moment
     value: |-
-      checking CRAN incoming feasibility ... NOTE
+      checking CRAN incoming feasibility ... WARNING
       Maintainer: 'Pieter Verschelde <pieter.verschelde@inbo.be>'
 
       New submission
+
+      Strong dependencies not in mainstream repositories:
+        inbodb
+
+      Found the following (possibly) invalid URLs:
+        URL: https://inbo.github.io/inbovegtypering
+          From: DESCRIPTION
+                inst/CITATION
+          Status: 404
+          Message: Not Found
+  notes:
+  - motivation: For the moment the data needs to use a custom species_list and synoptic
+      table
+    value: |-
+      checking installed package size ... NOTE
+        installed size is 23.6Mb
+        sub-directories of 1Mb or more:
+          resources      7.2Mb
+          species_list  16.0Mb
+  - motivation: checklist itself said I should run the codemeta that produces this
+      file
+    value: |-
+      checking top-level files ... NOTE
+      Non-standard file/directory found at top level:
+        'codemeta.json'
 required:
 - CITATION
 - DESCRIPTION
@@ -27,3 +51,5 @@ spelling:
   ignore:
   - .github
   - LICENSE.md
+  - inst/development/*.*
+  - R/*.*
