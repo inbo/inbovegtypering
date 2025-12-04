@@ -80,19 +80,19 @@ library(dplyr)
 
 # 1. Load Example Data
 # --------------------
-data("example_recordings")
-data("example_synoptics")
+data("dummy_recordings")
+data("dummy_synoptics")
 
 # Inspect the recordings (5 plots)
-head(example_recordings)
+head(dummy_recordings)
 
 # 2. Run Classification
 # ---------------------
 # We classify the recordings against the provided synoptic table.
 # By default, this calculates the Composite Distance (CoD) and all sub-indices.
 classification_results <- classify_vegetation(
-  data = example_recordings,
-  synoptics = example_synoptics,
+  data = dummy_recordings,
+  synoptics = dummy_synoptics,
   layer = "K" # Analyze the herb layer
 )
 
@@ -104,7 +104,7 @@ print(classification_results)
 
 # Get a detailed summary for the first recording
 # Shows top 5 matches sorted by CoD
-summary(classification_results, recording_ids = "REC-01", top_n = 5)
+summary(classification_results, top_n = 5)
 
 # 4. Visualization
 # ----------------
@@ -113,7 +113,7 @@ summary(classification_results, recording_ids = "REC-01", top_n = 5)
 # Visualizes the "distance" to the best matching syntaxa.
 # Longer spokes = Better Match.
 # We plot the results for REC-01 and REC-02 (which are very similar)
-plot(classification_results[1:2], 
+plot(classification_results, 
      indextype = "cod", 
      types = 10, 
      ncol = 2, nrow = 1)
@@ -121,7 +121,7 @@ plot(classification_results[1:2],
 # B) Classification Bar Chart
 # Shows the distance scores directly (Shorter bars = Better Match)
 # Useful for comparing the exact metric values.
-barplot(classification_results[1:2], 
+barplot(classification_results, 
         indextype = "cod", 
         types = 10,
         ncol = 2, nrow = 1)
