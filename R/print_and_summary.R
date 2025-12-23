@@ -47,7 +47,7 @@ print.inbovegclassification_list <- function(x, ...) {
 #' @export
 summary.inbovegclassification <- function(object,
                                           sort_by = "cod",
-                                          indices = c("cod", "med", "llk"),
+                                          indices = c("cod", "nrm_cod", "med", "nrm_llk", "nrm_wrd", "nrm_inc"),
                                           top_n = 20,
                                           digits = 3,
                                           ...) {
