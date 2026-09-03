@@ -1,12 +1,12 @@
-on:
-  push:
-    branches:
-      - main
-      - master
-permissions:
-  contents: write
+#on:
+#  push:
+#    branches:
+#      - main
+#      - master
+#permissions:
+#  contents: write
 
-name: "check package on main with checklist"
+#name: "check package on main with checklist"
 
 #jobs:
 #  check-package:
