@@ -17,3 +17,6 @@
 #      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #    steps:
 #      - uses: inbo/actions/check_pkg@main
+
+on: workflow_dispatch
+
