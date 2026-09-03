@@ -47,8 +47,227 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9">
-Functies om vegetatietoekenning mogelijk te maken op basis van een vegetatieopname.
+  <main id="main" class="col-md-9"><div class="section level1">
+<div class="page-header"><h1 id="inbovegtypering-package">Inbovegtypering package<a class="anchor" aria-label="anchor" href="#inbovegtypering-package"></a>
+</h1></div>
+</div>
+<div class="section level1">
+<h1 id="inbovegtypering-package-1">Inbovegtypering package<a class="anchor" aria-label="anchor" href="#inbovegtypering-package-1"></a>
+</h1>
+<!-- badges: start -->
+
+<p>The goal of inbovegtypering is to classify vegetation relevés (plots) into predefined vegetation types (syntaxa) based on the methods described by van Tongeren et al. (2008). It implements the ASSOCIA algorithm for supervised clustering.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can install the development version of inbovegtypering from GitHub with:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"inbo/inbovegtypering"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: `install_github()` was deprecated in devtools 2.5.0.</span></span>
+<span><span class="co">#&gt; ℹ Please use pak::pak("user/repo") instead.</span></span>
+<span><span class="co">#&gt; This warning is displayed once per session.</span></span>
+<span><span class="co">#&gt; Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span>
+<span><span class="co">#&gt; generated.</span></span>
+<span><span class="co">#&gt; Using GitHub PAT from the git credential store.</span></span>
+<span><span class="co">#&gt; Downloading GitHub repo inbo/inbovegtypering@HEAD</span></span>
+<span><span class="co">#&gt; Warning in untar2(tarfile, files, list, exdir, restore_times, allow_all):</span></span>
+<span><span class="co">#&gt; skipping pax global extended headers</span></span>
+<span><span class="co">#&gt; Warning in untar2(tarfile, files, list, exdir, restore_times, allow_all):</span></span>
+<span><span class="co">#&gt; skipping pax global extended headers</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── R CMD build ─────────────────────────────────────────────────────────────────</span></span>
+<span><span class="co">#&gt;          checking for file 'C:\Users\pieter_verschelde\AppData\Local\Temp\RtmpaWYQat\remotes14b82dc379f3\inbo-inbovegtypering-bcc533f/DESCRIPTION' ...     checking for file 'C:\Users\pieter_verschelde\AppData\Local\Temp\RtmpaWYQat\remotes14b82dc379f3\inbo-inbovegtypering-bcc533f/DESCRIPTION' ...   ✔  checking for file 'C:\Users\pieter_verschelde\AppData\Local\Temp\RtmpaWYQat\remotes14b82dc379f3\inbo-inbovegtypering-bcc533f/DESCRIPTION' (384ms)</span></span>
+<span><span class="co">#&gt;       ─  preparing 'inbovegtypering':</span></span>
+<span><span class="co">#&gt;      checking DESCRIPTION meta-information ...     checking DESCRIPTION meta-information ...   ✔  checking DESCRIPTION meta-information</span></span>
+<span><span class="co">#&gt;       ─  checking for LF line-endings in source and make files and shell scripts (424ms)</span></span>
+<span><span class="co">#&gt;       ─  checking for empty or unneeded directories</span></span>
+<span><span class="co">#&gt;       ─  building 'inbovegtypering_0.2.0.tar.gz'</span></span>
+<span><span class="co">#&gt;      </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Installing package into 'C:/Users/pieter_verschelde/AppData/Local/Temp/RtmpimzOoB/temp_libpath57d419b9e2b'</span></span>
+<span><span class="co">#&gt; (as 'lib' is unspecified)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="methodology">Methodology<a class="anchor" aria-label="anchor" href="#methodology"></a>
+</h2>
+<p>The core function classify_vegetation() calculates similarity indices between your vegetation recordings and a reference synoptic table.</p>
+<p>The indices include:</p>
+<ul>
+<li><p><strong>Composite Distance (CoD):</strong> The primary classification metric combining qualitative and quantitative data.</p></li>
+<li><p><strong>(un)Likelihood (-2ln):</strong> A qualitative distance measure based on species presence/absence.</p></li>
+<li><p><strong>Weirdness:</strong> Measures the presence of unexpected species.</p></li>
+<li><p><strong>Incompleteness:</strong> Measures the absence of expected species.</p></li>
+<li><p><strong>Modified Euclidean Distance (MED):</strong> A quantitative distance measure based on species abundance (cover).</p></li>
+</ul>
+<p><strong>Note:</strong> For all these indices, a <strong>lower value</strong> indicates a <strong>better</strong> match.</p>
+</div>
+<div class="section level2">
+<h2 id="workflow">Workflow<a class="anchor" aria-label="anchor" href="#workflow"></a>
+</h2>
+<p>The classification process requires two main inputs:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Recordings Data:</strong> Your plot data containing species cover values.</p></li>
+<li><p><strong>Synoptic Table:</strong> A reference table defining the vegetation types (syntaxa) with species frequencies and characteristic cover.</p></li>
+</ol>
+<div class="section level3">
+<h3 id="example-basic-classification">Example: Basic Classification<a class="anchor" aria-label="anchor" href="#example-basic-classification"></a>
+</h3>
+<p>This example uses the dummy datasets included in the package (example_recordings and example_synoptics).</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/inbo/inbovegtypering" class="external-link">inbovegtypering</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     filter, lag</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span></span>
+<span><span class="co"># 1. Load Example Data</span></span>
+<span><span class="co"># --------------------</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"dummy_recordings"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"dummy_synoptics"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Inspect the recordings (5 plots)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dummy_recordings</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   recording species_number pct_value layer_code</span></span>
+<span><span class="co">#&gt; 1    REC-01              1        70          K</span></span>
+<span><span class="co">#&gt; 2    REC-01              2        60          K</span></span>
+<span><span class="co">#&gt; 3    REC-01              3        50          K</span></span>
+<span><span class="co">#&gt; 4    REC-01             15         5          K</span></span>
+<span><span class="co">#&gt; 5    REC-01             18         2          K</span></span>
+<span><span class="co">#&gt; 6    REC-02              1        60          K</span></span>
+<span></span>
+<span><span class="co"># 2. Run Classification</span></span>
+<span><span class="co"># ---------------------</span></span>
+<span><span class="co"># We classify the recordings against the provided synoptic table.</span></span>
+<span><span class="co"># By default, this calculates the Composite Distance (CoD) and all sub-indices.</span></span>
+<span><span class="va">classification_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/classify_vegetation.html">classify_vegetation</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">dummy_recordings</span>,</span>
+<span>  synoptics <span class="op">=</span> <span class="va">dummy_synoptics</span>,</span>
+<span>  layer <span class="op">=</span> <span class="st">"K"</span> <span class="co"># Analyze the herb layer</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 3. Inspect Results</span></span>
+<span><span class="co"># ------------------</span></span>
+<span></span>
+<span><span class="co"># Print the result object (shows top matches for each recording)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">classification_results</span><span class="op">)</span></span>
+<span><span class="co">#&gt; List of INBO vegetation classifications</span></span>
+<span><span class="co">#&gt; Number of recordings classified: 5</span></span>
+<span></span>
+<span><span class="co"># Get a detailed summary for the first recording</span></span>
+<span><span class="co"># Shows top 5 matches sorted by CoD</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">classification_results</span>, top_n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Classification Summary for Recording: REC-01 </span></span>
+<span><span class="co">#&gt; Sorted by: cod (ascending/best fit first)</span></span>
+<span><span class="co">#&gt; Top 5 matches:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   syntaxon      cod  nrm_cod       med   nrm_llk   nrm_wrd    nrm_inc</span></span>
+<span><span class="co">#&gt; 1   SYN-01 3.372355 1.665361 0.2174641 0.6584955 1.1886884 -0.2048025</span></span>
+<span><span class="co">#&gt; 2   SYN-09 5.921931 2.263346 0.9435074 0.9096194 0.9723336  0.7994583</span></span>
+<span><span class="co">#&gt; 3   SYN-02 6.269017 2.949941 0.9063139 1.6978655 1.4234778  2.2847208</span></span>
+<span><span class="co">#&gt; 4   SYN-06 7.012152 2.531711 1.0425745 1.1563578 1.1955679  1.0885513</span></span>
+<span><span class="co">#&gt; 5   SYN-05 8.696374 3.270385 1.4195685 1.7880119 1.6806671  1.9759551</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; --------------------------------------------------------</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Classification Summary for Recording: REC-02 </span></span>
+<span><span class="co">#&gt; Sorted by: cod (ascending/best fit first)</span></span>
+<span><span class="co">#&gt; Top 5 matches:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   syntaxon      cod  nrm_cod       med   nrm_llk   nrm_wrd    nrm_inc</span></span>
+<span><span class="co">#&gt; 1   SYN-01 2.733982 1.245738 0.2231673 0.1707409 0.4461629 -0.2777210</span></span>
+<span><span class="co">#&gt; 2   SYN-02 4.052644 1.590626 0.7904246 0.3369052 0.5518515 -0.1228179</span></span>
+<span><span class="co">#&gt; 3   SYN-09 5.542988 2.140367 0.8801494 0.8017874 0.8178795  0.7735206</span></span>
+<span><span class="co">#&gt; 4   SYN-06 7.431981 2.676284 1.0727228 1.3143212 1.4263395  1.1206066</span></span>
+<span><span class="co">#&gt; 5   SYN-03 7.723199 2.880026 1.1275696 1.5431004 1.7656657  1.1379333</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; --------------------------------------------------------</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Classification Summary for Recording: REC-03 </span></span>
+<span><span class="co">#&gt; Sorted by: cod (ascending/best fit first)</span></span>
+<span><span class="co">#&gt; Top 5 matches:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   syntaxon      cod  nrm_cod       med  nrm_llk  nrm_wrd  nrm_inc</span></span>
+<span><span class="co">#&gt; 1   SYN-05 6.217814 2.454200 0.8671366 1.174695 1.252171 1.039047</span></span>
+<span><span class="co">#&gt; 2   SYN-09 8.153931 3.219852 1.0513430 2.021942 2.145422 1.805041</span></span>
+<span><span class="co">#&gt; 3   SYN-06 8.219495 2.988860 1.1192153 1.665442 1.775662 1.474837</span></span>
+<span><span class="co">#&gt; 4   SYN-08 8.959378 3.589311 1.2965249 2.263874 1.917246 2.875094</span></span>
+<span><span class="co">#&gt; 5   SYN-10 9.579478 3.983290 1.2446424 2.874067 2.697350 3.211802</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; --------------------------------------------------------</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Classification Summary for Recording: REC-04 </span></span>
+<span><span class="co">#&gt; Sorted by: cod (ascending/best fit first)</span></span>
+<span><span class="co">#&gt; Top 5 matches:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   syntaxon      cod  nrm_cod       med   nrm_llk   nrm_wrd    nrm_inc</span></span>
+<span><span class="co">#&gt; 1   SYN-06 4.303275 1.409566 0.7226505 0.1635158 0.4211785 -0.2820635</span></span>
+<span><span class="co">#&gt; 2   SYN-01 5.769594 2.174549 0.8054994 0.8674506 0.6821436  1.1691808</span></span>
+<span><span class="co">#&gt; 3   SYN-05 7.292767 2.944783 0.9655875 1.6986442 1.5518740  1.9556148</span></span>
+<span><span class="co">#&gt; 4   SYN-03 7.464647 3.022793 1.0249319 1.7160470 1.3032079  2.4675965</span></span>
+<span><span class="co">#&gt; 5   SYN-09 7.487446 3.029285 0.9493690 1.8370988 1.8234753  1.8610292</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; --------------------------------------------------------</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Classification Summary for Recording: REC-05 </span></span>
+<span><span class="co">#&gt; Sorted by: cod (ascending/best fit first)</span></span>
+<span><span class="co">#&gt; Top 5 matches:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   syntaxon      cod  nrm_cod       med  nrm_llk  nrm_wrd   nrm_inc</span></span>
+<span><span class="co">#&gt; 1   SYN-08 7.076804 2.689280 0.9692206 1.452783 2.085255 0.3375279</span></span>
+<span><span class="co">#&gt; 2   SYN-03 9.161361 3.657534 1.0288563 2.657296 2.709490 2.5622807</span></span>
+<span><span class="co">#&gt; 3   SYN-01 9.618882 3.638024 0.9257886 2.764260 3.320704 1.8582168</span></span>
+<span><span class="co">#&gt; 4   SYN-04 9.661014 3.870582 1.1153621 2.939197 3.581662 1.8130169</span></span>
+<span><span class="co">#&gt; 5   SYN-06 9.686678 3.629870 1.0536226 2.611787 2.916086 2.0855588</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; --------------------------------------------------------</span></span>
+<span></span>
+<span><span class="co"># 4. Visualization</span></span>
+<span><span class="co"># ----------------</span></span>
+<span></span>
+<span><span class="co"># A) Classification Rose Plot</span></span>
+<span><span class="co"># Visualizes the "distance" to the best matching syntaxa.</span></span>
+<span><span class="co"># Longer spokes = Better Match.</span></span>
+<span><span class="co"># We plot the results for REC-01 and REC-02 (which are very similar)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">classification_results</span>, </span>
+<span>     indextype <span class="op">=</span> <span class="st">"cod"</span>, </span>
+<span>     types <span class="op">=</span> <span class="fl">10</span>, </span>
+<span>     ncol <span class="op">=</span> <span class="fl">2</span>, nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-examplesnippet-1.png" alt="" width="100%"><img src="reference/figures/README-examplesnippet-2.png" alt="" width="100%"><img src="reference/figures/README-examplesnippet-3.png" alt="" width="100%"></p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co"># B) Classification Bar Chart</span></span>
+<span><span class="co"># Shows the distance scores directly (Shorter bars = Better Match)</span></span>
+<span><span class="co"># Useful for comparing the exact metric values.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html" class="external-link">barplot</a></span><span class="op">(</span><span class="va">classification_results</span>, </span>
+<span>        indextype <span class="op">=</span> <span class="st">"cod"</span>, </span>
+<span>        types <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>        ncol <span class="op">=</span> <span class="fl">2</span>, nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-examplesnippet-4.png" alt="" width="100%"><img src="reference/figures/README-examplesnippet-5.png" alt="" width="100%"><img src="reference/figures/README-examplesnippet-6.png" alt="" width="100%"></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="using-default-synoptics">Using Default Synoptics<a class="anchor" aria-label="anchor" href="#using-default-synoptics"></a>
+</h2>
+<p>If the package includes a default synoptic table in inst/extdata/synoptic_table.csv, you can use the shorthand “default” argument:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># results &lt;- classify_vegetation(</span></span>
+<span><span class="co">#   data = dummy_recordings,</span></span>
+<span><span class="co">#   synoptics = "default"</span></span>
+<span><span class="co">#)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<p>van Tongeren, O., Gremmen, N., &amp; Hennekens, S. (2008). Assignment of relevés to pre-defined classes by supervised clustering of plant communities using a new composite index. Journal of Vegetation Science, 19(4), 525-536.</p>
+</div>
+</div>
+
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
@@ -89,7 +308,17 @@ Functies om vegetatietoekenning mogelijk te maken op basis van een vegetatieopna
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://www.repostatus.org/#concept" class="external-link"><img src="https://www.repostatus.org/badges/latest/concept.svg" alt="Project Status: Concept – Minimal or no implementation has been done yet, or the repository is only intended to be a limited example, demo, or proof-of-concept."></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
+<li><a href="https://www.gnu.org/licenses/gpl-3.0.html" class="external-link"><img src="https://img.shields.io/badge/license-GPL--3-blue.svg?style=flat" alt="License"></a></li>
+<li><a href="https://github.com/inbo/inbovegtypering/releases" class="external-link"><img src="https://img.shields.io/github/release/inbo/inbovegtypering.svg" alt="Release"></a></li>
+<li><a href="https://github.com/inbo/inbovegtypering/actions" class="external-link"><img src="https://github.com/inbo/inbovegtypering/workflows/check%20package%20on%20main/badge.svg" alt="R build status"></a></li>
+<li><a href="https://app.codecov.io/gh/inbo/inbovegtypering?branch=main" class="external-link"><img src="https://codecov.io/gh/inbo/inbovegtypering/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
+</ul>
+</div>
 
   </aside>
 </div>
