@@ -4,7 +4,7 @@ title: "inbovegtypering: Vegetatietypering Voor INBOVEG"
 authors:
 - given-names: Pieter
   family-names: Verschelde
-  affiliation: Instituut voor Natuur- en Bosonderzoek (INBO)
+  affiliation: Research Institute for Nature and Forest (INBO)
   orcid: 0000-0002-9199-421X
 keywords:
 - vegetation
@@ -12,7 +12,7 @@ keywords:
 contact:
 - given-names: Pieter
   family-names: Verschelde
-  affiliation: Instituut voor Natuur- en Bosonderzoek (INBO)
+  affiliation: Research Institute for Nature and Forest (INBO)
   orcid: 0000-0002-9199-421X
 doi: ~
 license: GPL-3.0
@@ -21,5 +21,7 @@ type: software
 abstract: "Functies om vegetatietoekenning mogelijk te maken op basis van een vegetatieopname."
 identifiers:
 - type: url
-  value: https://inbo.github.io/inbovegtypering
-version: 0.1.1
+  value:
+  - https://inbo.github.io/inbovegtypering
+  - https://inbo.github.io/inbovegtypering/
+version: 0.2.1

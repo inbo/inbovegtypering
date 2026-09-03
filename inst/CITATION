@@ -2,12 +2,12 @@ citHeader("To cite `inbovegtypering` in publications please use:")
 # begin checklist entry
 bibentry(
   bibtype = "Manual",
-  title = "inbovegtypering: Vegetatietypering Voor INBOVEG. Version 0.1.1",
-  author = c( author = c(person(given = "Pieter", family = "Verschelde"))),
-  year = 2024,
+  title = "inbovegtypering: Vegetatietypering Voor INBOVEG. Version 0.2.1",
+  author = c(person(given = "Pieter", family = "Verschelde")),
+  year = 2026,
   url = "https://inbo.github.io/inbovegtypering",
   abstract = "Functies om vegetatietoekenning mogelijk te maken op basis van een vegetatieopname.",
-  textVersion = "Verschelde, Pieter (2024) inbovegtypering: Vegetatietypering Voor INBOVEG. Version 0.1.1. https://inbo.github.io/inbovegtypering",
+  textVersion = "Verschelde, Pieter (2026) inbovegtypering: Vegetatietypering Voor INBOVEG. Version 0.2.1. https://inbo.github.io/inbovegtypering; https://inbo.github.io/inbovegtypering/",
   keywords = "vegetation; classification",
 )
 # end checklist entry

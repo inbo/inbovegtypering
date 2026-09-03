@@ -18,6 +18,26 @@ allowed:
                 inst/CITATION
           Status: 404
           Message: Not Found
+  - motivation: Komt later hopelijk in orde
+    value: |-
+      checking CRAN incoming feasibility ... WARNING
+      Maintainer: 'Pieter Verschelde <pieter.verschelde@inbo.be>'
+
+      New submission
+
+      Strong dependencies not in the CRAN or BioC software repositories:
+        inbodb
+
+      Found the following (possibly) invalid URLs:
+        URL: https://inbo.github.io/inbovegtypering (moved to https://inbo.github.io/inbovegtypering/)
+          From: DESCRIPTION
+                inst/CITATION
+          Status: 301
+          Message: Moved Permanently
+      For content that is 'Moved Permanently', please change http to https,
+      add trailing slashes, or replace the old by the new URL.
+  - motivation: Ik zal die nog exporteren
+    value: 'documented but unexported functions: create_test_inboveg_database, link_taxa_db'
   notes:
   - motivation: For the moment the data needs to use a custom species_list and synoptic
       table
@@ -44,6 +64,7 @@ required:
 - folder conventions
 - license
 - lintr
+- organisation
 - repository secret
 - spelling
 spelling:
@@ -53,3 +74,4 @@ spelling:
   - LICENSE.md
   - inst/development/*.*
   - R/*.*
+pak: []

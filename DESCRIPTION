@@ -1,6 +1,6 @@
 Package: inbovegtypering
 Title: Vegetatietypering Voor INBOVEG
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: c(
     person("Pieter", "Verschelde", , "pieter.verschelde@inbo.be", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-9199-421X", affiliation = "Research Institute for Nature and Forest (INBO)")),
@@ -10,7 +10,9 @@ Authors@R: c(
 Description: Functies om vegetatietoekenning mogelijk te maken op basis
     van een vegetatieopname.
 License: GPL-3
-URL: https://github.com/inbo/inbovegtypering, https://inbo.github.io/inbovegtypering, https://inbo.github.io/inbovegtypering/
+URL: https://github.com/inbo/inbovegtypering,
+    https://inbo.github.io/inbovegtypering,
+    https://inbo.github.io/inbovegtypering/
 BugReports: https://github.com/inbo/inbovegtypering/issues
 Depends: 
     R (>= 4.4.0)
@@ -28,6 +30,7 @@ Imports:
     tibble,
     tidyr
 Config/checklist/communities: inbo
+Config/checklist/keywords: vegetation; classification
 Config/citeme/keywords: vegetation; classification
 Config/roxygen2/version: 8.0.0
 Encoding: UTF-8

@@ -22,10 +22,16 @@ title: "Inbovegtypering package"
 knitr::opts_chunk$set(
   collapse = TRUE,
   echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  error = FALSE,
+  
   comment = "#>",
-  fig.path = file.path("man", "figures", "README-"),
+  fig.path = file.path("man", "figures", "readme_"),
   out.width = "100%"
 )
+
+
 ```
 
 
@@ -35,7 +41,7 @@ The goal of inbovegtypering is to classify vegetation relevés (plots) into pred
 
 You can install the development version of inbovegtypering from GitHub with:
 
-```{r install}
+```{r install, results='hide'}
 # install.packages("devtools")
 devtools::install_github("inbo/inbovegtypering")
 
