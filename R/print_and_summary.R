@@ -29,7 +29,8 @@ print.inbovegclassification_list <- function(x, ...) {
 #' @param object An object of class `inbovegclassification`.
 #' @param sort_by Character string. The column name to sort by (ascending).
 #'   Defaults to "cod".
-#' @param indices Character vector. The indices (columns) to display in the output.
+#' @param indices Character vector.
+#' The indices (columns) to display in the output.
 #'   Defaults to c("cod", "nrm_cod", "med", "nrm_llk", "nrm_wrd", "nrm_inc").
 #'   Available options are the columns present in `object$results`, including
 #'   normalized indices such as "nrm_cod", "nrm_llk", "nrm_wrd", and "nrm_inc".
@@ -47,7 +48,9 @@ print.inbovegclassification_list <- function(x, ...) {
 #' @export
 summary.inbovegclassification <- function(object,
                                           sort_by = "cod",
-                                          indices = c("cod", "nrm_cod", "med", "nrm_llk", "nrm_wrd", "nrm_inc"),
+                                          indices = c("cod", "nrm_cod", "med",
+                                                      "nrm_llk", "nrm_wrd",
+                                                      "nrm_inc"),
                                           top_n = 20,
                                           digits = 3,
                                           ...) {
@@ -59,7 +62,8 @@ summary.inbovegclassification <- function(object,
 
   missing_indices <- setdiff(indices, colnames(object$results))
   if (length(missing_indices) > 0) {
-    stop(paste("Indices not found in results:", paste(missing_indices, collapse = ", ")))
+    stop(paste("Indices not found in results:",
+               paste(missing_indices, collapse = ", ")))
   }
 
   assertthat::assert_that(
@@ -116,7 +120,9 @@ print.summary.inbovegclassification <- function(x, ...) {
 #'
 #' @importFrom assertthat assert_that
 #' @export
-summary.inbovegclassification_list <- function(object, recording_ids = NULL, ...) {
+summary.inbovegclassification_list <- function(object,
+                                               recording_ids = NULL,
+                                               ...) {
   # --- Filter List ---
   if (!is.null(recording_ids)) {
     # Check if requested IDs exist
@@ -156,7 +162,7 @@ summary.inbovegclassification_list <- function(object, recording_ids = NULL, ...
 #' @param x inbovegclassification_list object
 #' @param ... not used
 #' @export
-print.summary.inbovegclassification_list <- function(x, ...) {
+print.summary.inbovegclassification_list <- function(x, ...) { #nolint
   # If the list is long, we might not want to print everything automatically
   # But standard R behavior is usually to print the list contents.
 

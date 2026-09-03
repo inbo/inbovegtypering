@@ -2,7 +2,7 @@
 % Please edit documentation in R/calculation_functions.R
 \name{calc_all_indices}
 \alias{calc_all_indices}
-\title{Core Calculation of Indices}
+\title{Core Calculation of ASSOCIA Indices}
 \usage{
 calc_all_indices(data, r, s, t)
 }
@@ -10,23 +10,26 @@ calc_all_indices(data, r, s, t)
 \item{data}{A data frame containing:
 \itemize{
 \item \code{presence}: Logical, whether species is present in the relevé.
-\item \code{pct_presence}: Frequency of the species in the syntaxon (0-1).
+\item \code{pct_presence}: Frequency of species in the syntaxon (0-1).
 \item \code{pct_value}: Observed abundance in the relevé.
-\item \code{cover_if_present}: Characteristic abundance (CA) of the species in the syntaxon.
+\item \code{cover_if_present}: Characteristic abundance (CA)
+of the species in the syntaxon.
 }}
 
-\item{r}{Weight for present species in the qualitative index (typically 0.5-1.0).}
+\item{r}{Weight for present species in the qualitative index
+(typically 0.5-1.0).}
 
-\item{s}{Power exponent (0-1) balancing Qualitative (s) vs Quantitative (1-s) components.}
+\item{s}{Power exponent (0-1) balancing Qualitative (s) vs
+Quantitative (1-s) components.}
 
 \item{t}{Weight for present species in MED (typically 0.5-1.0).}
 }
 \value{
-Data frame of results.
-
 A data frame with raw and normalized indices. Normalized values of 0
 indicate an "average" match, while values > 1 indicate atypical relevés.
 }
 \description{
-Computes Weirdness, Incompleteness, Likelihood, MED, and CoD.
+Computes Weirdness, Incompleteness, Likelihood, MED, and CoD based on
+van Tongeren et al. (2008). This version implements normalization to
+remove richness bias and uses the corrected MED formula from the manual.
 }

@@ -19,3 +19,4 @@
 ^development$
 ^\.vscode$
 ^data-exclude$
+^_pkgdown\.yml$

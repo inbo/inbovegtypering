@@ -16,22 +16,29 @@ plot_classification_rose(
 )
 }
 \arguments{
-\item{object}{An object of class \code{inbovegclassification} containing the results.}
+\item{object}{An object of class \code{inbovegclassification}
+containing the results.}
 
-\item{indextype}{Character string indicating the name of the index column to use.
+\item{indextype}{Character string
+indicating the name of the index column to use.
 Default "cod" (Lower values = better match).}
 
 \item{types}{Either a number indicating how many top types to show,
 or a character vector of syntaxon codes to display.}
 
-\item{relative_scale}{Logical. If TRUE (default), the spoke length is calculated
-relative to the best match's score. If FALSE, it normalizes min-max within the subset.}
+\item{relative_scale}{Logical. If TRUE (default),
+the spoke length is calculated
+relative to the best match's score.
+If FALSE, it normalizes min-max within the subset.}
 
-\item{sensitivity}{Numeric. Controls how quickly spoke length decays for worse matches
+\item{sensitivity}{Numeric.
+Controls how quickly spoke length decays for worse matches
 when \code{relative_scale = TRUE}. Default 1.0 (linear ratio).
-Higher values (>1) punish bad matches more visible; values < 1 make differences subtler.}
+Higher values (>1) punish bad matches more visible;
+values < 1 make differences subtler.}
 
-\item{min_length}{Minimum length for normalization (default 0.1) to ensure visibility.}
+\item{min_length}{Minimum length for normalization (default 0.1)
+to ensure visibility.}
 
 \item{order}{Character. How to order the classes. One of "value" (default),
 "alphabetical", or "given".}
@@ -42,6 +49,7 @@ Higher values (>1) punish bad matches more visible; values < 1 make differences 
 A ggplot object
 }
 \description{
-Creates a star-shaped radial plot ("classification rose") showing classification results.
+Creates a star-shaped radial plot ("classification rose")
+showing classification results.
 The scaling is relative to the best match in the set.
 }

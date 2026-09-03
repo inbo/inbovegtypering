@@ -1,4 +1,4 @@
-# tests/testthat/test-link_recording_species_list.R
+
 
 test_that("invalid source parameter throws error", {
   test_data <- tibble(species = c("Quercus robur", "Fagus sylvatica"))
@@ -11,7 +11,9 @@ test_that("invalid source parameter throws error", {
 test_that("non-existent column throws error", {
   test_data <- tibble(species = c("Quercus robur", "Fagus sylvatica"))
   expect_error(
-    link_recording_species_list(test_data, "wrong_column", source = "gbif_backbone"),
+    link_recording_species_list(test_data,
+                                "wrong_column",
+                                source = "gbif_backbone"),
     "col_name does not exist in the dataset"
   )
 })
@@ -20,7 +22,10 @@ test_that("max_gbif limit works", {
   # Create test data with more species than max_gbif
   test_data <- tibble(species = paste0("Species_", 1:6000))
   expect_error(
-    link_recording_species_list(test_data, "species", source = "gbif_backbone", max_gbif = 5000),
+    link_recording_species_list(test_data,
+                                "species",
+                                source = "gbif_backbone",
+                                max_gbif = 5000),
     "higer than allowed in max_gbif"
   )
 })
@@ -59,7 +64,9 @@ test_that("included source checks for required columns", {
     acceptedUsageKey = c(1, 2)
   )
   expect_no_error(
-    link_recording_species_list(test_data_complete, "species", source = "included")
+    link_recording_species_list(test_data_complete,
+                                "species",
+                                source = "included")
   )
 })
 

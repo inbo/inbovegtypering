@@ -1,11 +1,7 @@
-# data-raw/generate_example_data.R
 
 library(dplyr)
 library(tidyr)
-
-# ... [Your dummy data generation code here] ...
-
-library(inbovegtypering) # Uncomment if installed
+#library(inbovegtypering) #nolint
 library(dplyr)
 library(tidyr)
 library(ggplot2)
@@ -75,15 +71,18 @@ syntaxa_ids <- paste0("SYN-", sprintf("%02d", 1:10))
 synoptics_list <- list()
 
 # SYN-01: Dominant Sp 1, 2, 3
-synoptics_list[[1]] <- generate_syntaxon_data("SYN-01", favored_species = c(1, 2, 3))
+synoptics_list[[1]] <- generate_syntaxon_data("SYN-01",
+                                              favored_species = c(1, 2, 3))
 # SYN-02: Dominant Sp 2, 3, 4 (Similar to SYN-01)
-synoptics_list[[2]] <- generate_syntaxon_data("SYN-02", favored_species = c(2, 3, 4))
+synoptics_list[[2]] <- generate_syntaxon_data("SYN-02",
+                                              favored_species = c(2, 3, 4))
 
 # Random others
 for (i in 3:10) {
   # Pick 3 random dominant species
   doms <- sample(species_ids, 3)
-  synoptics_list[[i]] <- generate_syntaxon_data(syntaxa_ids[i], favored_species = doms)
+  synoptics_list[[i]] <- generate_syntaxon_data(syntaxa_ids[i],
+                                                favored_species = doms)
 }
 
 dummy_synoptics <- bind_rows(synoptics_list)

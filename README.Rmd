@@ -134,10 +134,10 @@ If the package includes a default synoptic table in inst/extdata/synoptic_table.
 
 
 ```{r defaultsynoptics}
-results <- classify_vegetation(
-  data = my_recordings,
-  synoptics = "default"
-)
+# results <- classify_vegetation(
+#   data = dummy_recordings,
+#   synoptics = "default"
+#)
 ```
 
 

@@ -1,7 +1,9 @@
 #' Prepare Synoptic Table
 #'
-#' Handles loading of the synoptic table from various sources (package, file, dataframe),
-#' checks required column names, and ensures data types are correct for calculation.
+#' Handles loading of the synoptic table
+#' from various sources (package, file, dataframe),
+#' checks required column names,
+#' and ensures data types are correct for calculation.
 #'
 #' @param synoptics A data frame, file path (string), or "default"/"package".
 #'
@@ -16,8 +18,9 @@ prepare_synoptic_table <- function(synoptics) {
 
     if (synoptics %in% c("default", "package")) {
       # Load from package inst/extdata
-      # NOTE: Replace 'yourpackagename' with the actual name of your package
-      file_path <- system.file("extdata", "synoptic_table.csv", package = "yourpackagename")
+      file_path <- system.file("extdata",
+                               "synoptic_table.csv",
+                               package = "inbovegtypering")
       if (file_path == "") {
         stop("Default synoptic_table.csv not found in package extdata.")
       }
@@ -35,11 +38,15 @@ prepare_synoptic_table <- function(synoptics) {
   }
 
   # Check required columns (using the NEW names provided by user)
-  required_cols <- c("syntaxon_code", "species_number", "frequency", "mean_if_present")
+  required_cols <- c("syntaxon_code",
+                     "species_number",
+                     "frequency",
+                     "mean_if_present")
   missing_cols <- setdiff(required_cols, colnames(synoptics))
 
   if (length(missing_cols) > 0) {
-    stop(paste("Synoptic table is missing columns:", paste(missing_cols, collapse = ", ")))
+    stop(paste("Synoptic table is missing columns:",
+               paste(missing_cols, collapse = ", ")))
   }
 
   # 3. Type Conversion and Renaming for Internal Logic
@@ -50,7 +57,8 @@ prepare_synoptic_table <- function(synoptics) {
     # We explicitly select and rename here to match the variable names
     # expected by calculate_indices() and join_recordings_synoptics().
     # Note: syntaxon_code and species_number are kept as is.
-    # frequency and mean_if_present are mapped to pct_presence and cover_if_present
+    # frequency and mean_if_present are mapped
+    # to pct_presence and cover_if_present
     # to maintain compatibility with the calculation functions.
     dplyr::transmute(
       syntaxon_code = .data$syntaxon_code,
@@ -69,7 +77,7 @@ prepare_synoptic_table <- function(synoptics) {
 #' @param data Raw data frame of recordings.
 #' @param layer Layer code to filter.
 #'
-#' @return A summarized data frame with one row per recording-species combination.
+#' @return A summarized data frame with one row per recording-species combi.
 #' @noRd
 prepare_recordings <- function(data, layer) {
   if (layer != "ALL") {
@@ -87,7 +95,8 @@ prepare_recordings <- function(data, layer) {
     ) |>
     dplyr::filter(!is.na(.data$species_number)) |>
     dplyr::group_by(.data$recording, .data$species_number) |>
-    # If duplicate entries exist for a species in a layer, take the maximum cover
+    # If duplicate entries exist for a species in a layer,
+    #take the maximum cover
     dplyr::summarise(
       pct_value = max(.data$pct_value, na.rm = TRUE),
       .groups = "drop"
@@ -103,11 +112,13 @@ prepare_recordings <- function(data, layer) {
 #' @param recordings Prepared recordings data frame.
 #' @param synoptics Prepared synoptics data frame.
 #'
-#' @return A joined data frame where missing species in recordings are filled with 0 cover.
+#' @return A joined data frame where missing species in recordings are filled
+#' with 0 cover.
 #' @noRd
 join_recordings_synoptics <- function(recordings, synoptics) {
   # Create a grid of all recordings x all syntaxon entries
-  # We need the syntaxon structure to define the 'universe' of species for that syntaxon
+  # We need the syntaxon structure to define the 'universe'
+  # of species for that syntaxon
   tidyr::crossing(
     data.frame(recording = unique(recordings$recording)),
     synoptics

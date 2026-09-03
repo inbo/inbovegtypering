@@ -19,7 +19,8 @@
 \item{sort_by}{Character string. The column name to sort by (ascending).
 Defaults to "cod".}
 
-\item{indices}{Character vector. The indices (columns) to display in the output.
+\item{indices}{Character vector.
+The indices (columns) to display in the output.
 Defaults to c("cod", "nrm_cod", "med", "nrm_llk", "nrm_wrd", "nrm_inc").
 Available options are the columns present in \code{object$results}, including
 normalized indices such as "nrm_cod", "nrm_llk", "nrm_wrd", and "nrm_inc".}

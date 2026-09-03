@@ -15,9 +15,11 @@ plot_classification_bar(
 )
 }
 \arguments{
-\item{object}{An object of class \code{inbovegclassification} containing the results.}
+\item{object}{An object of class \code{inbovegclassification}
+containing the results.}
 
-\item{indextype}{Character string indicating the name of the index column to use.
+\item{indextype}{Character string
+indicating the name of the index column to use.
 Default "cod".}
 
 \item{types}{Either a number indicating how many top types to show,

@@ -13,7 +13,8 @@
 
 \item{nrow}{Integer. Number of rows in the plot grid. Default 2.}
 
-\item{max_pages}{Integer. Maximum number of pages allowed to print. Default 10.}
+\item{max_pages}{Integer. Maximum number of pages allowed to print.
+Default 10.}
 
 \item{force}{Logical. If TRUE, overrides the max_pages limit. Default FALSE.}
 

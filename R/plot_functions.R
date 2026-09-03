@@ -5,7 +5,8 @@
 #' Visualizes the best matching syntaxa for a vegetation recording.
 #'
 #' @param x An object of class "inbovegclassification"
-#' @param indextype Character string. The index to plot (e.g., "cod", "med", "likelihood").
+#' @param indextype Character string. The index to plot
+#' (e.g., "cod", "med", "likelihood").
 #'   Defaults to "cod".
 #' @param types Either a number indicating how many top types to show
 #'   (default 12), or a character vector of syntaxon codes to display.
@@ -68,7 +69,8 @@ plot.inbovegclassification <- function(x,
 #' @param x An object of class "inbovegclassification_list".
 #' @param ncol Integer. Number of columns in the plot grid. Default 2.
 #' @param nrow Integer. Number of rows in the plot grid. Default 2.
-#' @param max_pages Integer. Maximum number of pages allowed to print. Default 10.
+#' @param max_pages Integer. Maximum number of pages allowed to print.
+#' Default 10.
 #' @param force Logical. If TRUE, overrides the max_pages limit. Default FALSE.
 #' @param ... arguments passed to `plot.inbovegclassification`.
 #'
@@ -76,8 +78,12 @@ plot.inbovegclassification <- function(x,
 #' @export
 #' @importFrom gridExtra grid.arrange
 #' @importFrom grDevices dev.interactive dev.flush
-plot.inbovegclassification_list <- function(x, ncol = 2, nrow = 2,
-                                            max_pages = 10, force = FALSE, ...) {
+plot.inbovegclassification_list <- function(x,
+                                            ncol = 2,
+                                            nrow = 2,
+                                            max_pages = 10,
+                                            force = FALSE,
+                                            ...) {
   if (length(x) == 0) {
     message("Empty classification list. Nothing to plot.")
     return(invisible(NULL))
@@ -123,7 +129,8 @@ plot.inbovegclassification_list <- function(x, ncol = 2, nrow = 2,
     # Print the grid
     gridExtra::grid.arrange(grobs = page_plots, ncol = ncol, nrow = nrow)
 
-    # If not interactive, we might want to force a flush to ensure plotting happens
+    # If not interactive, we might want to force a flush
+    # to ensure plotting happens
     if (!dev.interactive()) grDevices::dev.flush()
   }
 
@@ -133,27 +140,36 @@ plot.inbovegclassification_list <- function(x, ncol = 2, nrow = 2,
 #' Create Classification Rose Plot
 #'
 #' @description
-#' Creates a star-shaped radial plot ("classification rose") showing classification results.
+#' Creates a star-shaped radial plot ("classification rose")
+#' showing classification results.
 #' The scaling is relative to the best match in the set.
 #'
-#' @param object An object of class `inbovegclassification` containing the results.
-#' @param indextype Character string indicating the name of the index column to use.
+#' @param object An object of class `inbovegclassification`
+#' containing the results.
+#' @param indextype Character string
+#' indicating the name of the index column to use.
 #'   Default "cod" (Lower values = better match).
 #' @param types Either a number indicating how many top types to show,
 #'   or a character vector of syntaxon codes to display.
-#' @param relative_scale Logical. If TRUE (default), the spoke length is calculated
-#'   relative to the best match's score. If FALSE, it normalizes min-max within the subset.
-#' @param sensitivity Numeric. Controls how quickly spoke length decays for worse matches
+#' @param relative_scale Logical. If TRUE (default),
+#' the spoke length is calculated
+#'   relative to the best match's score.
+#'   If FALSE, it normalizes min-max within the subset.
+#' @param sensitivity Numeric.
+#' Controls how quickly spoke length decays for worse matches
 #'   when `relative_scale = TRUE`. Default 1.0 (linear ratio).
-#'   Higher values (>1) punish bad matches more visible; values < 1 make differences subtler.
-#' @param min_length Minimum length for normalization (default 0.1) to ensure visibility.
+#'   Higher values (>1) punish bad matches more visible;
+#'   values < 1 make differences subtler.
+#' @param min_length Minimum length for normalization (default 0.1)
+#' to ensure visibility.
 #' @param order Character. How to order the classes. One of "value" (default),
 #'   "alphabetical", or "given".
 #' @param ... Additional arguments (not used).
 #'
 #' @return A ggplot object
 #' @importFrom ggplot2 ggplot aes geom_polygon geom_text geom_segment geom_path
-#' @importFrom ggplot2 scale_x_continuous scale_y_continuous theme_void theme element_text expansion margin
+#' @importFrom ggplot2 scale_x_continuous scale_y_continuous theme_void
+#' @importFrom ggplot2 theme element_text expansion margin
 #' @importFrom dplyr slice_min filter arrange mutate select
 #' @importFrom rlang .data sym
 #' @export
@@ -163,13 +179,16 @@ plot_classification_rose <- function(object,
                                      relative_scale = TRUE,
                                      sensitivity = 1.0,
                                      min_length = 0.2,
-                                     order = c("value", "alphabetical", "given"),
+                                     order = c("value",
+                                               "alphabetical",
+                                               "given"),
                                      ...) {
   # --- 1. Data Prep ---
   data <- object$results
 
   # Ensure column 'syntaxon' exists (renamed from syntaxon_code/syntaxonCode)
-  # If the input data still has old names, rename them on the fly for consistency
+  # If the input data still has old names,
+  # rename them on the fly for consistency
   if ("syntaxonCode" %in% names(data)) {
     data <- dplyr::rename(data, syntaxon = "syntaxonCode")
   } else if ("syntaxon_code" %in% names(data)) {
@@ -228,7 +247,7 @@ plot_classification_rose <- function(object,
     # --- Relative Scaling Strategy ---
     # The Best Match defines Length = 1.0.
     # Other matches are a ratio of the Best Score.
-    # Formula: Length = (Best_Score / Current_Score) ^ sensitivity
+    # Formula: Length = (Best_Score / Current_Score) ^ sensitivity #nolint
     # If Current is 10% worse (1.1x Best), length is ~0.9.
 
     best_score <- min(raw_vals, na.rm = TRUE)
@@ -244,7 +263,8 @@ plot_classification_rose <- function(object,
   } else {
     # --- Min-Max Normalization (Old Method) ---
     # Scales the selected subset to fill the range [min_length, 1]
-    # This emphasizes differences within the subset, even if they are tiny in absolute terms.
+    # This emphasizes differences within the subset,
+    # even if they are tiny in absolute terms.
 
     inv_vals <- 1 / raw_vals
     min_inv <- min(inv_vals)
@@ -262,7 +282,8 @@ plot_classification_rose <- function(object,
   n_points <- nrow(plot_data)
 
   # Start at 12 o'clock (pi/2) and go clockwise
-  plot_data$angle <- seq(pi / 2, pi / 2 - 2 * pi, length.out = n_points + 1)[1:n_points]
+  plot_data$angle <- seq(pi / 2, pi / 2 - 2 * pi,
+                         length.out = n_points + 1)[1:n_points]
 
   plot_data <- plot_data |>
     dplyr::mutate(
@@ -276,7 +297,7 @@ plot_classification_rose <- function(object,
       hjust = dplyr::case_when(
         .data$x > 0.05 ~ 0, # Right side
         .data$x < -0.05 ~ 1, # Left side
-        TRUE ~ 0.5 # Center (top/bottom)
+        TRUE ~ 0.5 # Center
       )
     )
 
@@ -348,7 +369,10 @@ plot_classification_rose <- function(object,
 #'
 #' @return A ggplot object.
 #' @export
-barplot.inbovegclassification <- function(height, indextype = "cod", types = 20, ...) {
+barplot.inbovegclassification <- function(height,
+                                          indextype = "cod",
+                                          types = 20,
+                                          ...) {
   # Extract metadata
   recording <- height$recording_id
 
@@ -385,8 +409,11 @@ barplot.inbovegclassification <- function(height, indextype = "cod", types = 20,
 #' @importFrom gridExtra grid.arrange
 #' @importFrom grDevices dev.interactive dev.flush
 #' @importFrom graphics barplot
-barplot.inbovegclassification_list <- function(height, ncol = 2, nrow = 2,
-                                               max_pages = 10, force = FALSE, ...) {
+barplot.inbovegclassification_list <- function(height,
+                                               ncol = 2,
+                                               nrow = 2,
+                                               max_pages = 10,
+                                               force = FALSE, ...) {
   x <- height # standard generic arg name is height, internal logic uses x
 
   if (length(x) == 0) {
@@ -441,8 +468,10 @@ barplot.inbovegclassification_list <- function(height, ncol = 2, nrow = 2,
 #' Because these indices are distance metrics, **shorter bars** represent
 #' **better matches**. The plot automatically sorts the best matches to the top.
 #'
-#' @param object An object of class `inbovegclassification` containing the results.
-#' @param indextype Character string indicating the name of the index column to use.
+#' @param object An object of class `inbovegclassification`
+#' containing the results.
+#' @param indextype Character string
+#' indicating the name of the index column to use.
 #'   Default "cod".
 #' @param types Either a number indicating how many top types to show,
 #'   or a character vector of syntaxon codes to display.
@@ -458,7 +487,8 @@ barplot.inbovegclassification_list <- function(height, ncol = 2, nrow = 2,
 #' @param ... Additional arguments (not used).
 #'
 #' @return A ggplot object
-#' @importFrom ggplot2 ggplot aes geom_col coord_flip scale_x_discrete theme_minimal
+#' @importFrom ggplot2 ggplot aes geom_col coord_flip
+#' @importFrom ggplot2 scale_x_discrete theme_minimal
 #' @importFrom ggplot2 labs geom_text theme element_text expansion margin
 #' @importFrom dplyr slice_min filter arrange mutate select rename
 #' @importFrom rlang .data sym
@@ -498,16 +528,18 @@ plot_classification_bar <- function(object,
 
     # Define Factor Levels for Plot Ordering
     # In coord_flip(), the first factor level appears at the BOTTOM.
-    # To put the Best (Lowest) Value at the TOP, it must be the LAST factor level.
+    # Put Best (Lowest) Value at the TOP, it must be the LAST factor level.
 
     if (order == "value") {
-      # Sort descending (Worst -> Best) so Best becomes last level -> Top of plot
+      # Sort descending (Worst -> Best) Best becomes last level -> Top of plot
       plot_data <- plot_data |> dplyr::arrange(dplyr::desc(!!index_col_sym))
-      plot_data$syntaxon <- factor(plot_data$syntaxon, levels = plot_data$syntaxon)
+      plot_data$syntaxon <- factor(plot_data$syntaxon,
+                                   levels = plot_data$syntaxon)
     } else if (order == "alphabetical") {
       # Sort Z->A so A becomes last level -> Top of plot
       plot_data <- plot_data |> dplyr::arrange(dplyr::desc(.data$syntaxon))
-      plot_data$syntaxon <- factor(plot_data$syntaxon, levels = plot_data$syntaxon)
+      plot_data$syntaxon <- factor(plot_data$syntaxon,
+                                   levels = plot_data$syntaxon)
     }
   } else if (is.character(types)) {
     plot_data <- plot_data |>
@@ -517,10 +549,12 @@ plot_classification_bar <- function(object,
 
     if (order == "value") {
       plot_data <- plot_data |> dplyr::arrange(dplyr::desc(!!index_col_sym))
-      plot_data$syntaxon <- factor(plot_data$syntaxon, levels = plot_data$syntaxon)
+      plot_data$syntaxon <- factor(plot_data$syntaxon,
+                                   levels = plot_data$syntaxon)
     } else if (order == "alphabetical") {
       plot_data <- plot_data |> dplyr::arrange(dplyr::desc(.data$syntaxon))
-      plot_data$syntaxon <- factor(plot_data$syntaxon, levels = plot_data$syntaxon)
+      plot_data$syntaxon <- factor(plot_data$syntaxon,
+                                   levels = plot_data$syntaxon)
     } else if (order == "given") {
       # Reverse the given vector so first item -> last level -> top of plot
       plot_data$syntaxon <- factor(plot_data$syntaxon, levels = rev(types))
@@ -528,7 +562,9 @@ plot_classification_bar <- function(object,
   }
 
   # --- 3. Plotting ---
-  p <- ggplot2::ggplot(plot_data, ggplot2::aes(x = .data$syntaxon, y = !!index_col_sym)) +
+  p <- ggplot2::ggplot(plot_data,
+                       ggplot2::aes(x = .data$syntaxon,
+                                    y = !!index_col_sym)) +
     ggplot2::geom_col(fill = fill_color, width = 0.7, alpha = 0.8) +
     ggplot2::coord_flip() +
     ggplot2::theme_minimal() +
@@ -550,7 +586,9 @@ plot_classification_bar <- function(object,
       size = 3
     ) +
       # Extend y-axis slightly to fit labels
-      ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = c(0, 0.15)))
+      ggplot2::scale_y_continuous(
+        expand = ggplot2::expansion(mult = c(0, 0.15))
+      )
   }
 
   return(p)

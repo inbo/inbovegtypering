@@ -7,18 +7,25 @@
 \format{
 A data frame with 50 rows and 4 variables:
 \describe{
-\item{recording}{Character. Unique identifier for the recording event (relevé) (e.g., "REC-01").}
-\item{species_number}{Integer. Internal numeric identifier for the species (1-20).}
-\item{pct_value}{Numeric. The cover percentage of the species (0-100).}
-\item{layer_code}{Character. Code indicating the vegetation layer (fixed as "K" for herb layer).}
+\item{recording}{Character.
+Unique identifier for the recording event (relevé) (e.g., "REC-01").}
+\item{species_number}{Integer.
+Internal numeric identifier for the species (1-20).}
+\item{pct_value}{Numeric.
+The cover percentage of the species (0-100).}
+\item{layer_code}{Character.
+Code indicating the vegetation layer
+(fixed as "K" for herb layer).}
 }
 }
 \usage{
 data(dummy_recordings)
 }
 \description{
-A synthetic dataset containing vegetation recordings (relevés) generated for testing
-classification functions. It includes 5 recordings with varying species composition.
+A synthetic dataset containing vegetation recordings (relevés)
+generated for testing
+classification functions.
+It includes 5 recordings with varying species composition.
 Recordings "REC-01" and "REC-02" are designed to be very similar.
 }
 \keyword{datasets}

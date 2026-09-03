@@ -7,18 +7,22 @@
 \format{
 A data frame with 20 rows and 5 variables:
 \describe{
-\item{speciesNumber}{Integer. Internal numeric identifier for the species (1-20).}
+\item{speciesNumber}{Integer.
+Internal numeric identifier for the species (1-20).}
 \item{speciesName}{Character. Vernacular name (e.g., "Species A").}
-\item{scientificName}{Character. Scientific name (e.g., "Genus A species").}
+\item{scientificName}{Character.
+Scientific name (e.g., "Genus A species").}
 \item{usageKey}{Integer. Synthetic GBIF usage key (1001-1020).}
-\item{acceptedusageKey}{Integer. Synthetic GBIF accepted usage key (1001-1020).}
+\item{acceptedusageKey}{Integer.
+Synthetic GBIF accepted usage key (1001-1020).}
 }
 }
 \usage{
 data(dummy_species_list)
 }
 \description{
-A reference list linking the internal species numbers used in the dummy recordings and
+A reference list linking the internal species numbers used
+in the dummy recordings and
 synoptics to synthetic scientific names and GBIF-style keys.
 }
 \keyword{datasets}

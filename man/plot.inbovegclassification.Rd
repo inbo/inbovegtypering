@@ -9,7 +9,8 @@
 \arguments{
 \item{x}{An object of class "inbovegclassification"}
 
-\item{indextype}{Character string. The index to plot (e.g., "cod", "med", "likelihood").
+\item{indextype}{Character string. The index to plot
+(e.g., "cod", "med", "likelihood").
 Defaults to "cod".}
 
 \item{types}{Either a number indicating how many top types to show

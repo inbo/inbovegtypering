@@ -7,17 +7,20 @@
 classify_vegetation(data, synoptics, layer = "ALL", r = 0.5, s = 0.6, t = 0.5)
 }
 \arguments{
-\item{data}{A data frame containing the vegetation recordings. Must contain columns:
+\item{data}{A data frame containing the vegetation recordings.
+Must contain columns:
 \code{recording} (ID), \code{species_number}, \code{pct_value} (cover percentage 0-100),
 and \code{layer_code}.}
 
 \item{synoptics}{A data frame, a file path, or the string "default".
-If a data frame, it must contain columns: \code{syntaxon_code}, \code{species_number},
+If a data frame, it must contain columns:
+\code{syntaxon_code}, \code{species_number},
 \code{frequency} (0-100), and \code{mean_if_present} (0-100).
 If "default" or "package", the function looks for a file named
 \code{synoptic_table.csv} in the package's \code{extdata} directory.}
 
-\item{layer}{Character string indicating the layer code to filter from \code{data}.
+\item{layer}{Character string indicating the layer code to filter
+from \code{data}.
 Defaults to "ALL", ( other examples "K" (Herb layer)).}
 
 \item{r}{Numeric. Weighting parameter for the "Weirdness" component in the
@@ -34,6 +37,7 @@ An object of class \code{inbovegclassification_list}, which is a list of
 objects of class \code{inbovegclassification} (one per recording).
 }
 \description{
-Calculates similarity indices (Weirdness, Incompleteness, Likelihood, MED, CoD)
+Calculates similarity indices
+(Weirdness, Incompleteness, Likelihood, MED, CoD)
 for vegetation recordings against a synoptic table of syntaxa.
 }

@@ -1,4 +1,3 @@
-# R/data_exports.R
 
 #' @export
 dummy_recordings <- NULL

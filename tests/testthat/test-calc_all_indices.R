@@ -1,4 +1,4 @@
-test_that("calc_all_indices keeps legacy normalized aliases for downstream callers", {
+test_that("calc_all_indices keeps legacy normalized aliases for downstream", {
   test_data <- data.frame(
     presence = c(TRUE, FALSE),
     pct_presence = c(0.8, 0.3),
