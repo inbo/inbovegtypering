@@ -30,9 +30,9 @@ print.inbovegclassification_list <- function(x, ...) {
 #' @param sort_by Character string. The column name to sort by (ascending).
 #'   Defaults to "cod".
 #' @param indices Character vector. The indices (columns) to display in the output.
-#'   Defaults to c("cod", "med", "unlikelihood").
-#'   Available options typically include: "cod", "med", "unlikelihood",
-#'   "weirdness", "incompleteness", "nrm_cod", "nrm_weirdness", etc.
+#'   Defaults to c("cod", "nrm_cod", "med", "nrm_llk", "nrm_wrd", "nrm_inc").
+#'   Available options are the columns present in `object$results`, including
+#'   normalized indices such as "nrm_cod", "nrm_llk", "nrm_wrd", and "nrm_inc".
 #' @param top_n Integer. The number of best matching syntaxa to return.
 #'   Defaults to 20. Set to Inf to return all.
 #' @param digits Number of digits to display per index, defaults to 3
