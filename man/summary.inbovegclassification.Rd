@@ -7,7 +7,7 @@
 \method{summary}{inbovegclassification}(
   object,
   sort_by = "cod",
-  indices = c("cod", "med", "llk"),
+  indices = c("cod", "nrm_cod", "med", "nrm_llk", "nrm_wrd", "nrm_inc"),
   top_n = 20,
   digits = 3,
   ...
@@ -20,9 +20,9 @@
 Defaults to "cod".}
 
 \item{indices}{Character vector. The indices (columns) to display in the output.
-Defaults to c("cod", "med", "unlikelihood").
-Available options typically include: "cod", "med", "unlikelihood",
-"weirdness", "incompleteness", "nrm_cod", "nrm_weirdness", etc.}
+Defaults to c("cod", "nrm_cod", "med", "nrm_llk", "nrm_wrd", "nrm_inc").
+Available options are the columns present in \code{object$results}, including
+normalized indices such as "nrm_cod", "nrm_llk", "nrm_wrd", and "nrm_inc".}
 
 \item{top_n}{Integer. The number of best matching syntaxa to return.
 Defaults to 20. Set to Inf to return all.}
