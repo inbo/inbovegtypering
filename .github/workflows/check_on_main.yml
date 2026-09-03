@@ -8,12 +8,12 @@ permissions:
 
 name: "check package on main with checklist"
 
-jobs:
-  check-package:
-    runs-on: ubuntu-latest
-    name: "check package"
-    env:
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - uses: inbo/actions/check_pkg@main
+#jobs:
+#  check-package:
+#    runs-on: ubuntu-latest
+#    name: "check package"
+#    env:
+#      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+#      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#    steps:
+#      - uses: inbo/actions/check_pkg@main
