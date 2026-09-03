@@ -1,5 +1,9 @@
 # Changelog
 
+## inbovegtypering 0.2.1
+
+- Some interbal styling
+
 ## inbovegtypering 0.2.0
 
 - complete overhaul

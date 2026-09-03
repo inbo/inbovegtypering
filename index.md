@@ -16,29 +16,6 @@ with:
 
 # install.packages("devtools")
 devtools::install_github("inbo/inbovegtypering")
-#> Warning: `install_github()` was deprecated in devtools 2.5.0.
-#> ℹ Please use pak::pak("user/repo") instead.
-#> This warning is displayed once per session.
-#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-#> generated.
-#> Using GitHub PAT from the git credential store.
-#> Downloading GitHub repo inbo/inbovegtypering@HEAD
-#> Warning in untar2(tarfile, files, list, exdir, restore_times, allow_all):
-#> skipping pax global extended headers
-#> Warning in untar2(tarfile, files, list, exdir, restore_times, allow_all):
-#> skipping pax global extended headers
-#> 
-#> ── R CMD build ─────────────────────────────────────────────────────────────────
-#>          checking for file 'C:\Users\pieter_verschelde\AppData\Local\Temp\RtmpaWYQat\remotes14b82dc379f3\inbo-inbovegtypering-bcc533f/DESCRIPTION' ...     checking for file 'C:\Users\pieter_verschelde\AppData\Local\Temp\RtmpaWYQat\remotes14b82dc379f3\inbo-inbovegtypering-bcc533f/DESCRIPTION' ...   ✔  checking for file 'C:\Users\pieter_verschelde\AppData\Local\Temp\RtmpaWYQat\remotes14b82dc379f3\inbo-inbovegtypering-bcc533f/DESCRIPTION' (384ms)
-#>       ─  preparing 'inbovegtypering':
-#>      checking DESCRIPTION meta-information ...     checking DESCRIPTION meta-information ...   ✔  checking DESCRIPTION meta-information
-#>       ─  checking for LF line-endings in source and make files and shell scripts (424ms)
-#>       ─  checking for empty or unneeded directories
-#>       ─  building 'inbovegtypering_0.2.0.tar.gz'
-#>      
-#> 
-#> Installing package into 'C:/Users/pieter_verschelde/AppData/Local/Temp/RtmpimzOoB/temp_libpath57d419b9e2b'
-#> (as 'lib' is unspecified)
 ```
 
 ## Methodology
@@ -82,14 +59,6 @@ This example uses the dummy datasets included in the package
 
 library(inbovegtypering)
 library(dplyr)
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
 
 # 1. Load Example Data
 # --------------------
@@ -205,7 +174,7 @@ plot(classification_results,
      ncol = 2, nrow = 1)
 ```
 
-![](reference/figures/README-examplesnippet-1.png)![](reference/figures/README-examplesnippet-2.png)![](reference/figures/README-examplesnippet-3.png)
+![](reference/figures/readme_examplesnippet-1.png)![](reference/figures/readme_examplesnippet-2.png)![](reference/figures/readme_examplesnippet-3.png)
 
 ``` r
 
@@ -219,7 +188,7 @@ barplot(classification_results,
         ncol = 2, nrow = 1)
 ```
 
-![](reference/figures/README-examplesnippet-4.png)![](reference/figures/README-examplesnippet-5.png)![](reference/figures/README-examplesnippet-6.png)
+![](reference/figures/readme_examplesnippet-4.png)![](reference/figures/readme_examplesnippet-5.png)![](reference/figures/readme_examplesnippet-6.png)
 
 ## Using Default Synoptics
 

@@ -15,13 +15,14 @@
 Source:
 [`inst/CITATION`](https://github.com/inbo/inbovegtypering/blob/main/inst/CITATION)
 
-Verschelde, Pieter (2024) inbovegtypering: Vegetatietypering Voor
-INBOVEG. Version 0.1.1. https://inbo.github.io/inbovegtypering
+Verschelde, Pieter (2026) inbovegtypering: Vegetatietypering Voor
+INBOVEG. Version 0.2.1. https://inbo.github.io/inbovegtypering;
+https://inbo.github.io/inbovegtypering/
 
     @Manual{,
-      title = {inbovegtypering: Vegetatietypering Voor INBOVEG. Version 0.1.1},
+      title = {inbovegtypering: Vegetatietypering Voor INBOVEG. Version 0.2.1},
       author = {Pieter Verschelde},
-      year = {2024},
+      year = {2026},
       url = {https://inbo.github.io/inbovegtypering},
       abstract = {Functies om vegetatietoekenning mogelijk te maken op basis van een vegetatieopname.},
       keywords = {vegetation; classification},
