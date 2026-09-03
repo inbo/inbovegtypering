@@ -6,7 +6,26 @@
 <url><loc>https://inbo.github.io/inbovegtypering/authors.html</loc></url>
 <url><loc>https://inbo.github.io/inbovegtypering/index.html</loc></url>
 <url><loc>https://inbo.github.io/inbovegtypering/news/index.html</loc></url>
+<url><loc>https://inbo.github.io/inbovegtypering/reference/barplot.inbovegclassification.html</loc></url>
+<url><loc>https://inbo.github.io/inbovegtypering/reference/barplot.inbovegclassification_list.html</loc></url>
+<url><loc>https://inbo.github.io/inbovegtypering/reference/calc_all_indices.html</loc></url>
+<url><loc>https://inbo.github.io/inbovegtypering/reference/classify_vegetation.html</loc></url>
+<url><loc>https://inbo.github.io/inbovegtypering/reference/connect_db_inboveg.html</loc></url>
+<url><loc>https://inbo.github.io/inbovegtypering/reference/create_test_inboveg_database.html</loc></url>
+<url><loc>https://inbo.github.io/inbovegtypering/reference/dummy_recordings.html</loc></url>
+<url><loc>https://inbo.github.io/inbovegtypering/reference/dummy_species_list.html</loc></url>
+<url><loc>https://inbo.github.io/inbovegtypering/reference/dummy_synoptics.html</loc></url>
 <url><loc>https://inbo.github.io/inbovegtypering/reference/index.html</loc></url>
-<url><loc>https://inbo.github.io/inbovegtypering/reference/test.html</loc></url>
+<url><loc>https://inbo.github.io/inbovegtypering/reference/link_taxa_db.html</loc></url>
+<url><loc>https://inbo.github.io/inbovegtypering/reference/plot.inbovegclassification.html</loc></url>
+<url><loc>https://inbo.github.io/inbovegtypering/reference/plot.inbovegclassification_list.html</loc></url>
+<url><loc>https://inbo.github.io/inbovegtypering/reference/plot_classification_bar.html</loc></url>
+<url><loc>https://inbo.github.io/inbovegtypering/reference/plot_classification_rose.html</loc></url>
+<url><loc>https://inbo.github.io/inbovegtypering/reference/print.inbovegclassification.html</loc></url>
+<url><loc>https://inbo.github.io/inbovegtypering/reference/print.inbovegclassification_list.html</loc></url>
+<url><loc>https://inbo.github.io/inbovegtypering/reference/print.summary.inbovegclassification.html</loc></url>
+<url><loc>https://inbo.github.io/inbovegtypering/reference/print.summary.inbovegclassification_list.html</loc></url>
+<url><loc>https://inbo.github.io/inbovegtypering/reference/summary.inbovegclassification.html</loc></url>
+<url><loc>https://inbo.github.io/inbovegtypering/reference/summary.inbovegclassification_list.html</loc></url>
 </urlset>
 

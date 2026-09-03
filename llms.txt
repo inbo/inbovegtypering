@@ -1,0 +1,48 @@
+Functies om vegetatietoekenning mogelijk te maken op basis van een
+vegetatieopname.
+
+# Package index
+
+## All functions
+
+- [`barplot(`*`<inbovegclassification>`*`)`](https://inbo.github.io/inbovegtypering/reference/barplot.inbovegclassification.md)
+  : Bar Plot Method for inbovegclassification Objects
+- [`barplot(`*`<inbovegclassification_list>`*`)`](https://inbo.github.io/inbovegtypering/reference/barplot.inbovegclassification_list.md)
+  : Bar Plot Method for inbovegclassification_list Objects
+- [`calc_all_indices()`](https://inbo.github.io/inbovegtypering/reference/calc_all_indices.md)
+  : Core Calculation of ASSOCIA Indices
+- [`classify_vegetation()`](https://inbo.github.io/inbovegtypering/reference/classify_vegetation.md)
+  : Classify Vegetation Recordings
+- [`connect_db_inboveg()`](https://inbo.github.io/inbovegtypering/reference/connect_db_inboveg.md)
+  : Connect to the INBO database
+- [`create_test_inboveg_database()`](https://inbo.github.io/inbovegtypering/reference/create_test_inboveg_database.md)
+  : Create a test database
+- [`dummy_recordings`](https://inbo.github.io/inbovegtypering/reference/dummy_recordings.md)
+  : Dummy Vegetation Recordings
+- [`dummy_species_list`](https://inbo.github.io/inbovegtypering/reference/dummy_species_list.md)
+  : Dummy Species List
+- [`dummy_synoptics`](https://inbo.github.io/inbovegtypering/reference/dummy_synoptics.md)
+  : Dummy Synoptic Table
+- [`link_taxa_db()`](https://inbo.github.io/inbovegtypering/reference/link_taxa_db.md)
+  : Link species records to GBIF taxonomy via INBO taxonomy database
+- [`plot(`*`<inbovegclassification>`*`)`](https://inbo.github.io/inbovegtypering/reference/plot.inbovegclassification.md)
+  : Plot Method for inbovegclassification Objects
+- [`plot(`*`<inbovegclassification_list>`*`)`](https://inbo.github.io/inbovegtypering/reference/plot.inbovegclassification_list.md)
+  : Plot Method for inbovegclassification_list Objects
+- [`plot_classification_bar()`](https://inbo.github.io/inbovegtypering/reference/plot_classification_bar.md)
+  : Create Classification Bar Plot
+- [`plot_classification_rose()`](https://inbo.github.io/inbovegtypering/reference/plot_classification_rose.md)
+  : Create Classification Rose Plot
+- [`print(`*`<inbovegclassification>`*`)`](https://inbo.github.io/inbovegtypering/reference/print.inbovegclassification.md)
+  : Print method for inbovegclassification
+- [`print(`*`<inbovegclassification_list>`*`)`](https://inbo.github.io/inbovegtypering/reference/print.inbovegclassification_list.md)
+  : Print method for inbovegclassification_list
+- [`print(`*`<summary.inbovegclassification>`*`)`](https://inbo.github.io/inbovegtypering/reference/print.summary.inbovegclassification.md)
+  : Print method for summary.inbovegclassification
+- [`print(`*`<summary.inbovegclassification_list>`*`)`](https://inbo.github.io/inbovegtypering/reference/print.summary.inbovegclassification_list.md)
+  : Print method for summary.inbovegclassification_list
+- [`summary(`*`<inbovegclassification>`*`)`](https://inbo.github.io/inbovegtypering/reference/summary.inbovegclassification.md)
+  : Summary for a Single Vegetation Classification
+- [`summary(`*`<inbovegclassification_list>`*`)`](https://inbo.github.io/inbovegtypering/reference/summary.inbovegclassification_list.md)
+  : Summary for a List of Vegetation Classifications
+
